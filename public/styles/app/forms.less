@@ -1,0 +1,518 @@
+// 
+// Forms
+// ==============================
+
+
+
+
+// Fields
+// ------------------------------
+
+
+// base
+
+.field {
+	.placeholder( @field-placeholder );
+	// .transition( ~"border-color 200ms linear, box-shadow 200ms linear" );
+	// #gradient .vertical(#fcfcfc, white, 10%);
+	background-color: @field-bg;
+	border: 1px solid @field-border;
+	// border-color: darken(@field-border, 5%) @field-border lighten(@field-border, 5%);
+	border-radius: @field-border-radius;
+	// box-shadow: inset 0 1px 1px @gray-lighter;
+	color: @field-color;
+	// height: @field-height;
+	padding: @field-padding-vertical @field-padding-horizontal;
+	width: 100%;
+	outline: none;
+	-webkit-appearance: none;
+
+	&:hover {
+		border-color: darken(@field-border, 10%);
+	}
+	&:focus {
+		// .box-shadow( inset 0 1px 1px @field-border );
+		background: none white;
+		border-color: @link-hover-color @link-color @link-color;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) inset, 0 0 3px fade(@link-color, 50%);
+	}
+}
+
+
+// sizes
+
+.field-sm {
+	font-size: @font-size-small;
+	padding: @padding-small-vertical @padding-small-horizontal;
+}
+
+
+// chromeless field
+
+.chromeless-field {
+	.placeholder( #ccc );
+	background: none transparent;
+	border: 0 none;
+	box-shadow: none;
+	color: @text-color;
+	display: inline-block;
+	outline: none;
+	padding: 0;
+	width: 100%;
+	-webkit-appearance: none;
+}
+
+
+// size variants
+
+.field-size-lg {
+	height: auto;
+	font-size: @font-size-h2;
+}
+.field-size-sm {
+	height: auto;
+	font-size: .85em;
+}
+
+
+// groups
+
+.form-group {
+	margin-bottom: 1em;
+
+	&.heading {
+		margin-top: 2em;
+	}
+}
+.field-group {
+	margin-bottom: .5em;
+}
+
+
+// textarea
+
+textarea.field {
+	.resizable(vertical);
+	min-height: 100px;
+}
+
+
+// search field
+
+.search-field {
+	position: relative;
+
+	// bring the field up over the button so its right border is visible
+	> .field:focus + .search-field-icon {
+		color: @gray;
+	}
+}
+.search-button {
+	margin-left: -1px;
+}
+.search-field-icon {
+	color: @field-placeholder;
+	position: absolute;
+	right: @field-padding-horizontal;
+	transform: translateY(-50%);
+	top: 50%;
+}
+
+
+// form footer containing buttons
+
+.form-actions {
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
+	margin-top: 20px;
+	padding-bottom: 20px;
+	padding-top: 20px;
+}
+
+
+// read only
+
+.field-readonly {
+	background-color: #fafafa;
+	border-radius: @border-radius;
+	display: inline-block;
+	padding: @field-padding-vertical @field-padding-horizontal;
+	
+	// links get highlighted
+	a& {
+		background-color: mix(white, @link-color, 90%)
+	}
+	
+	// stop the element from collapsing
+	&:empty {
+		color: @gray-light;
+		&:after {
+			content: 'null';
+		}
+	}
+}
+
+
+// little x that clears forms
+.form-clear {
+	// de-chrome buttons
+	background: none;
+	border: 0 none;
+
+	// element styles
+	background-color: fade(@field-bg, 93%); // cover the field value
+	border-radius: @field-border-radius;
+	color: @gray;
+	display: inline-block;
+
+	// sizing + positioning
+	.size( @font-size-base + (@padding-base-horizontal * 2), @line-height-computed + (@padding-base-vertical * 2) );
+	line-height: @line-height-computed + (@padding-base-vertical * 2);
+	text-align: center;
+	position: absolute;
+	right: 1px; // border-width
+	top: 1px; // border-width
+	z-index: 2;
+
+	// browser appearance
+	outline: none;
+	-webkit-appearance: none;
+	
+	&:hover,
+	&:focus {
+		color: @app-danger;
+		text-decoration: none;
+	}
+}
+.form-clear-sm {
+	.size( @font-size-base + (@padding-small-horizontal * 2), @font-size-base + (@padding-small-vertical * 2) );
+	line-height: @font-size-base + (@padding-small-vertical * 2);
+}
+
+
+
+// Form Inline
+// ------------------------------
+
+
+.form-inline {
+	.clearfix();
+	
+	> .field-inline {
+		float: left;
+	}
+}
+.field-inline {
+	display: inline-block;
+	position: relative;
+}
+.field-inline-sm { width: 100px; }
+.field-inline-md { width: 220px; }
+.field-inline-lg { width: 300px; }
+
+
+
+// Form Rows
+// ------------------------------
+
+// horizontally aligned the form field with it's label
+
+.form-row {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+}
+.form-col {
+	display: table-cell;
+	padding-left: @padding-base-horizontal / 2;
+	padding-right: @padding-base-horizontal / 2;
+
+	&:first-child { padding-left: 0; }
+	&:last-child { padding-right: 0; }
+
+	// manually enforce padding
+	&.pad-left { padding-left: @padding-base-horizontal; }
+	&.pad-right { padding-right: @padding-base-horizontal; }
+
+	label& {
+		vertical-align: top;
+	}
+
+	input,
+	button {
+		display: block;
+	}
+
+	.flush-cols > & {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+.form-col--one-whole      { width: 100%; }
+
+.form-col--one-half       { width: 50%; }
+
+.form-col--one-quarter    { width: 25%; }
+.form-col--three-quarters { width: 75%; }
+
+.form-col--one-third      { width: 33.333%; }
+.form-col--two-thirds     { width: 66.666%; }
+
+.form-col--one-fifth      { width: 20%; }
+.form-col--two-fifths     { width: 40%; }
+.form-col--three-fifths   { width: 60%; }
+.form-col--four-fifths    { width: 80%; }
+
+.form-col--one-sixth      { width: 16.666%; }
+.form-col--five-sixths    { width: 83.333%; }
+
+
+
+
+
+// Form Items
+// ------------------------------
+
+.form-items {
+	padding-left: @padding-base-horizontal;
+}
+.form-item {
+	border-top: 1px solid @gray-lighter;
+
+	&:first-child,
+	&.is-first {
+		border-top: 0 none;
+	}
+}
+
+.form-label {
+	color: @gray;
+	font-weight: 400;
+	padding: @padding-base-vertical @padding-base-horizontal;
+	vertical-align: middle;
+	width: 33%;
+}
+.form-control {
+	padding: @padding-base-vertical @padding-base-horizontal;
+	position: relative;
+
+	&:only-child {
+		padding-left: 0;
+	}
+	.btn.pull-right {
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+}
+
+
+
+
+
+// Checkboxes and radios
+// ------------------------------
+
+// indent the labels to position radios/checkboxes as hanging controls
+
+.radio,
+.checkbox {
+	display: block;
+	min-height: 1em; // clear the floating input if there is no label text
+	
+	> label {
+		cursor: pointer;
+		display: inline;
+		font-weight: normal;
+		padding-left: 24px;
+		position: relative;
+	}
+	> label > input[type="radio"],
+	> label > input[type="checkbox"] {
+		display: inline-block;
+		left: 0;
+		position: absolute;
+		top: 4px;
+	}
+
+	&.inline {
+		display: inline-block;
+
+		& + & {
+			margin-left: 1em;
+		}
+	}
+}
+
+
+
+
+// Select Field
+// ------------------------------
+
+// style the native select field whilst retaining the default behaviour
+.select-field-container {
+	position: relative;
+}
+// apply default field styles
+.select-field {
+	.field();
+	color: @text-color;
+	font-size: inherit;
+	font-family: @font-family-base;
+	line-height: @line-height-base;
+	outline: none;
+	width: 100%;
+	-webkit-appearance: none;
+	   -moz-appearance: none;
+			appearance: none;
+
+	// Stop FF from showing that dotted outline
+	// this hack makes me feel dirty :(
+	&:-moz-focusring {
+		color: transparent; // hide text
+		text-shadow: 0 0 0 #000; // replace text with a shadow
+	}
+	&:hover + .select-field-indicator {
+		background-color: lighten(@field-border, 10%);
+	}
+	&:focus {
+		border-color: darken(@field-border, 10%);
+		box-shadow: none;
+
+		+ .select-field-indicator {
+			background-color: @field-border;
+			border-left-color: @field-border;
+
+			.select-field-indicator-arrow {
+				border-top-color: @gray;
+			}
+		}
+	}
+}
+// replicate the dropdown arrows
+.select-field-indicator,
+.select-field-indicator-arrow {
+	bottom: 1px;
+	content: '';
+	display: inline-block;
+	right: 1px;
+	top: 1px;
+	position: absolute;
+	pointer-events: none;
+}
+
+// hide the default arrow UI
+.select-field-indicator {
+	.border-right-radius( @border-radius - 2 );
+	background-color: @field-bg;
+	border-left: 1px solid @field-border;
+	width: 1.5em;
+}
+// add the arrow back
+.select-field-indicator-arrow {
+	.square(0);
+	.translate(-50%,-50%);
+	border: 4px solid transparent;
+	border-top-color: @field-placeholder;
+	border-bottom-width: 0;
+	right: 4px;
+	text-align: center;
+	top: 50%;
+}
+
+
+
+
+// Select Field
+// ------------------------------
+
+// ==============================
+// CORRECT IMPLEMENTATION
+// ==============================
+
+// Reintroduce this when there is a React.Select component
+
+// style the native select field whilst retaining the default behaviour
+.select-chromeless-container {
+	position: relative;
+}
+// apply default field styles
+.select-chromeless {
+	.chromeless-field();
+
+	// Stop FF from showing that dotted outline
+	// this hack makes me feel dirty :(
+	&:-moz-focusring {
+		color: transparent; // hide text
+		text-shadow: 0 0 0 #000; // replace text with a shadow
+	}
+}
+// replicate the dropdown arrows
+.select-chromeless-indicator,
+.select-chromeless-indicator-arrow {
+	bottom: 0;
+	content: '';
+	display: inline-block;
+	right: 0;
+	top: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+// hide the default arrow UI
+.select-chromeless-indicator {
+	background-color: white;
+	width: 1.5em;
+}
+// add the arrow back
+.select-chromeless-indicator-arrow {
+	.square(0);
+	.translate(-50%,-50%);
+	border: 4px solid transparent;
+	border-top-color: @field-placeholder;
+	border-bottom-width: 0;
+	right: 4px;
+	text-align: center;
+	top: 50%;
+}
+
+
+
+
+// Modal Form
+// ------------------------------
+
+.modal-form {
+	position: relative;
+
+	&:after {
+		.fill-space();
+		.transition( ~"opacity 200ms, visibility 200ms" );
+		background-color: rgba(255, 255, 255, 0.5);
+		content: "";
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	&.is-processing {
+		pointer-events: none;
+
+		&:after {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.loading-button {
+			.loading-button-icon { opacity: 1; }
+			.loading-button-text { opacity: 0; }
+		}
+	}
+}
+
+
+
+
+
+
+
+

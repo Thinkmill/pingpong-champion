@@ -1,0 +1,94 @@
+//
+// Slider
+// ==============================
+
+
+@slider-gutter: 4px;
+
+
+// default / neutral
+
+.slider {
+	position: relative;
+}
+.slider-rail {
+	background-color: @gray-lighter;
+	border: 1px solid #ccc;
+	border-radius: @font-size-small;
+	box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.05);
+	height: @font-size-small;
+}
+.slider-handle {
+	.square(@font-size-small + (@slider-gutter * 2));
+	background-color: white;
+	border: 1px solid #ccc;
+	border-radius: 50%;
+	box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05);
+	cursor: ew-resize;
+	cursor: grab;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+	position: absolute;
+	margin-left: -@slider-gutter;
+	top: -@slider-gutter;
+
+	// lines indicating "grabbability"
+	&:active { 
+		cursor: grabbing;
+		cursor: -moz-grabbing;
+		cursor: -webkit-grabbing;
+	}
+
+	&:before,
+	&:after {
+		.size(1px,@font-size-small - 2);
+		.translateY(-50%);
+		box-shadow: 1px 0 0 #ccc, -1px 0 0 #ccc;
+		content: "";
+		left: 50%;
+		position: absolute;
+		top: 50%;
+	}
+	&:before {
+		margin-left: -3px;
+	}
+	&:after {
+		margin-left: 1px;
+	}
+}
+
+// increments
+.slider-increments {
+	.display-flex();
+	.justify-content(space-between);
+	color: @gray;
+	font-size: @font-size-tiny;
+}
+.slider-increment {
+	// .flex(1, 1, 0);
+	padding: @slider-gutter;
+	text-align: center;
+}
+
+
+
+
+// NoUiSlider
+// ------------------------------
+
+// override rules from the jQuery plugin
+
+.noUi-background,
+.noUi-target,
+.noUi-handle {
+	box-shadow: none !important;
+}
+
+
+
+
+
+
+
+
+

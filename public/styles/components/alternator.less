@@ -1,0 +1,73 @@
+//
+// Alternator
+// ==============================
+
+
+// default / neutral
+
+.alternator {
+	font-weight: bold;
+	margin: 0 auto;
+	text-align: center;
+}
+.alternator-number,
+.alternator-percentage {
+	line-height: 1;
+	padding: 20px 0;
+}
+
+// value
+.alternator-number {
+	.border-top-radius( @border-radius );
+	background-color: @gray-light;
+}
+.alternator-number-value {
+	font-size: 42px;
+}
+.alternator-number-label {
+	font-weight: 300;
+}
+
+// percentage
+.alternator-percentage {
+	.border-bottom-radius( @border-radius );
+	border: 4px solid @gray-light;
+	color: @gray;
+	font-size: @font-size-large;
+	
+}
+.alternator-percentage-icon {
+	margin-right: 5px;
+}
+
+
+// positive
+
+.alternator.positive {
+	.alternator-number {
+		background-color: mix(@app-create, white, 10%);
+	}
+	.alternator-percentage {
+		border-color: mix(@app-create, white, 10%);
+		color: @app-create;
+	}
+	.alternator-percentage-icon {
+		.ionicon(@app-create, @ionicon-var-arrow-up-c, 'inherit');
+	}
+}
+
+
+// negative
+
+.alternator.negative {
+	.alternator-number {
+		background-color: mix(@app-danger, white, 10%);
+	}
+	.alternator-percentage {
+		border-color: mix(@app-danger, white, 10%);
+		color: @app-danger;
+	}
+	.alternator-percentage-icon {
+		.ionicon(@app-danger, @ionicon-var-arrow-down-c, 'inherit');
+	}
+}

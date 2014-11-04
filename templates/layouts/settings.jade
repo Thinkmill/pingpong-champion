@@ -1,0 +1,16 @@
+extends default
+
+block sidebar
+	nav.sidebar-nav
+		a(href='/settings' class=subsection === 'index' ? 'active' : null).sidebar-nav-item Centre Details
+		a(href='/directory' class=subsection === 'directory' ? 'active' : null).sidebar-nav-item Store Directory
+		a(href='/admins' class=subsection === 'admins' ? 'active' : null).sidebar-nav-item Admins
+		a(href='javascript:;' title='This screen has not been implemented yet.' class=subsection === 'offers' ? 'active' : null).sidebar-nav-item Special Offers
+
+block body
+	.app-content
+		block header
+		.content-body: .app-container
+			block content
+
+		include /templates/includes/layout/footer

@@ -1,0 +1,17 @@
+//- Textarea with a label
+//- 
+//- Used inside '.form-horizontal' to display a label left of the textarea
+//- 
+//- Accepted arguments:
+//- * label
+//- * textarea args (name, value, placeholder)
+
+include textarea
+
+mixin labelled-textarea(args)
+	.form-group.form-row
+		label(for=attributes.id ? attributes.id : null).form-col.form-col--one-quarter= args.label
+		.form-col.form-col--three-quarters
+			+textarea(args)(id=attributes.id,class=attributes.class)
+			if args.note
+				.form-info= args.note

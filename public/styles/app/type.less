@@ -1,0 +1,323 @@
+// 
+// Type
+// ==============================
+
+
+
+
+// Elements
+// ------------------------------
+
+p {
+	margin: 0 0 .66em;
+}
+
+
+
+
+// Misc
+// ------------------------------
+
+hr.dashed { border-top-style: dashed; }
+hr.dotted { border-top-style: dotted; }
+
+.text-overflow {
+	.text-overflow(block);
+	// line-height: 1.2; // stop the bottom/top of the text being cropped
+}
+.text-overflow--reverse {
+	.text-overflow(block);
+	// line-height: 1.2; // stop the bottom/top of the text being cropped
+	direction: rtl;
+    text-align: left;
+}
+
+.lead {
+	font-size: 1.2em;
+	font-weight: 300;
+	margin-bottom: .66em;
+}
+
+
+// back link
+
+.back-link {
+	color: mix(black, @body-bg, 30%);
+	display: inline-block;
+	margin-bottom: 2em;
+
+	&:hover,
+	&:focus {
+		color: mix(black, @body-bg, 40%);
+	}
+}
+
+
+
+// Headings
+// ------------------------------
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+	color: @headings-color;
+	font-family: @headings-font-family;
+	font-weight: @headings-font-weight;
+	line-height: 1;
+	margin: 0 0 20px;
+}
+h1, .h1 { font-size: @font-size-h1; }
+h2, .h2 { font-size: @font-size-h2; }
+h3, .h3 { font-size: @font-size-h3; }
+h4, .h4 { font-size: @font-size-h4; }
+h5, .h5 { font-size: @font-size-h5; }
+h6, .h6 { font-size: @font-size-h6; }
+
+
+// mini heading
+
+.mini-heading {
+	color: @gray-light;
+	font-size: @font-size-small;
+	font-weight: 500;
+	margin-bottom: .5em;
+	position: relative;
+	text-transform: uppercase;
+}
+
+
+
+// Lists
+// ------------------------------
+
+// Unstyled keeps list items block level, just removes default browser padding and list-style
+.list-unstyled {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+// Inline turns list items into inline-block
+.list-inline {
+	.list-unstyled();
+	margin-left: -5px;
+	margin-top: -5px;
+
+	> li {
+		display: inline-block;
+		padding-bottom: 10px;
+		padding: 5px;
+	}
+}
+
+// List of links
+.list-links {
+	border-top: 1px solid @gray-lighter;
+	margin-bottom: 1em;
+	margin-top: 1em;
+	
+	a {
+		border-bottom: 1px solid @gray-lighter;
+		color: @text-color;
+		display: block;
+		padding: @padding-base-vertical 0;
+
+		&:hover {
+			color: @text-color;
+		}
+	}
+}
+
+// Horizontal description lists
+//
+// Defaults to being stacked without any of the below styles applied, until the
+// grid breakpoint is reached (default of ~768px).
+
+.dl-horizontal {
+	margin: 0 0 .66em;
+	
+	dd {
+		&:extend(.clearfix all); // Clear the floated `dt` if an empty `dd` is present
+		margin-left: 0;
+	}
+
+	@media (min-width: @screen-sm) {
+		dt {
+			.text-overflow();
+			clear: left;
+			float: left;
+			// text-align: right;
+			width: (@dl-horizontal-offset - 20);
+		}
+		dd {
+			margin-left: @dl-horizontal-offset;
+		}
+	}
+}
+
+
+
+
+// Angle Arrow
+// ------------------------------
+
+.angle-down-arrow {
+	.size(16px,4px);
+	background-color: #ccc;
+	float: left;
+	margin: 17px;
+	position: relative;
+
+	&:before {
+		.size(4px,16px);
+		background-color: #ccc;
+		content: "";
+		left: 0;
+		position: absolute;
+		top: 0;
+	}
+
+	&:after {
+		.square(0);
+		border: 7px solid transparent;
+		border-bottom-width: 0;
+		border-top-color: #ccc;
+		content: "";
+		left: -5px;
+		position: absolute;
+		top: 12px;
+	}
+}
+
+
+
+
+// Misc
+// ------------------------------
+
+.lh-1 {
+	line-height: 1 !important;
+}
+
+
+
+
+// Page Header
+// ------------------------------
+
+.page-header {
+	margin-bottom: @grid-gutter * 2;
+	margin-top: @grid-gutter;
+}
+
+
+
+// No resutls
+// ------------------------------
+
+.no-results {
+	background: #fafafa;
+	border-radius: @border-radius;
+	box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+	color: @gray;
+	padding: (@grid-gutter * 4) 0;
+	text-align: center;
+}
+.no-results-heading {
+	color: @text-color;
+	font-size: @font-size-h2;
+	font-weight: 500;
+	margin-bottom: @grid-gutter / 2;
+}
+.no-results-message {
+	font-weight: 300;
+
+	> a {
+		border-bottom: 1px dotted;
+		color: inherit;
+		text-decoration: none;
+
+		&:hover {
+			border-bottom-style: solid;
+			// color: @gray-darker;
+			text-decoration: none;
+		}
+	}
+}
+.no-results-icon{
+	color: #ccc;
+	font-size: 64px;
+	margin-bottom: .25em;
+}
+
+
+
+
+// Utilities
+// ------------------------------
+
+// Alignment
+.text-left           { text-align: left !important; }
+.text-right          { text-align: right !important; }
+.text-center         { text-align: center !important; }
+.text-justify        { text-align: justify !important; }
+.text-nowrap         { white-space: nowrap !important; }
+
+// Case Transformation
+.text-lowercase      { text-transform: lowercase; }
+.text-uppercase      { text-transform: uppercase; }
+.text-capitalize     { text-transform: capitalize; }
+
+// Size Transformation
+.text-xs      { font-size: @font-size-tiny; }
+.text-sm      { font-size: @font-size-small; }
+.text-md      { font-size: @font-size-base; }
+.text-lg      { font-size: @font-size-large; }
+.text-huge    { font-size: @font-size-huge; line-height: 1; }
+.text-massive { font-size: @font-size-massive; line-height: 1; }
+
+// Contextual colors
+
+// muted
+.text-muted,
+.btn-link.text-muted {
+	color: @gray-light;
+}
+// dim
+.text-dimmed,
+.btn-link.text-dimmed {
+	color: @gray;
+}
+// base
+.text-base,
+.btn-link.text-base {
+	color: @gray-dark;
+}
+
+// danger
+.text-danger,
+.btn-link.text-danger {
+	color: @gray-light;
+
+	&:hover,
+	&:focus {
+		color: @app-danger;
+	}
+}
+
+// other
+.text-primary,
+.btn-link.text-primary {
+	.text-emphasis-variant(@app-primary);
+}
+.text-create,
+.btn-link.text-create {
+	.text-emphasis-variant(@app-create);
+}
+.text-info,
+.btn-link.text-info {
+	.text-emphasis-variant(@app-info);
+}
+.text-warning,
+.btn-link.text-warning {
+	.text-emphasis-variant(@app-warning);
+}

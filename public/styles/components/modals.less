@@ -1,0 +1,210 @@
+//
+// Modals
+// --------------------------------------------------
+
+// .modal-open      - body class for killing the scroll
+// .modal           - container to scroll within
+// .modal-dialog    - positioning shell for the actual modal
+// .modal-content   - actual modal w/ bg and corners and shit
+
+// Kill the scroll on the body
+.modal-open {
+	overflow: hidden;
+
+	// Maybe one day when the browser doesn't choke on it...
+	// > .app-wrapper {
+	// 	-webkit-filter: blur(5px);
+	// 	-moz-filter: blur(5px);
+	// 	-o-filter: blur(5px);
+	// 	-ms-filter: blur(5px);
+	// 	filter: blur(5px);
+	// }
+}
+
+// Container that the modal scrolls within
+.modal {
+	display: none;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: @zindex-modal;
+	-webkit-overflow-scrolling: touch;
+
+	// Prevent Chrome on Windows from adding a focus outline. For details, see
+	// https://github.com/twbs/bootstrap/pull/10951.
+	outline: 0;
+
+	&.in .modal-dialog {
+		.animation( slideInFromRight 250ms ease-in-out );
+	}
+}
+.modal-open .modal {
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+// Shell div to position the modal with bottom padding
+.modal-dialog {
+	position: relative;
+	width: auto;
+}
+
+// Actual modal
+.modal-content {
+	.scrollable();
+	background-color: @modal-content-bg;
+	box-shadow: 0 0 12px -1px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06);
+	height: 100%;
+	padding-left: @modal-inner-padding;
+	padding-right: @modal-inner-padding;
+	position: relative;
+	// Remove focus outline from opened modal
+	outline: 0;
+}
+
+// Modal background
+.modal-backdrop {
+	.animation( fadeIn 150ms );
+	background-color: rgba(255, 255, 255, 0.75);
+	bottom: 0;
+	left: 0;
+	opacity: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: @zindex-modal-background;
+
+	&.in { opacity: 1; }
+}
+
+// Modal header
+// Top section of the modal w/ title and dismiss
+.modal-header {
+	.headerbar();
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+	padding-right: @modal-inner-padding @modal-inner-padding @modal-inner-padding 0;
+	// text-align: center;
+	
+	// buttons
+	.headerbar-button {
+		font-weight: 300;
+
+		// offset default gutter whilst affording a larger hit area
+		margin-left: -@modal-inner-padding;
+		margin-right: -@modal-inner-padding;
+		padding-left: @modal-inner-padding;
+		padding-right: @modal-inner-padding;
+
+		&.is-primary {
+			font-weight: 500;
+		}
+	}
+	
+	// close icon
+	.close {
+		padding: @modal-inner-padding; // enlarge hit area
+	}
+}
+
+// Title text within header
+.modal-title {
+	font-weight: 500;
+	line-height: @headerbar-height;
+	margin: 0;
+}
+
+// Modal body
+// Where all modal content resides (sibling of .modal-header and .modal-footer)
+.modal-body {
+	position: relative;
+	padding: @modal-inner-padding 0;
+}
+
+// Footer (for actions)
+.modal-footer {
+	border-top: 1px solid @modal-footer-border-color;
+	padding: @modal-inner-padding @modal-inner-padding @modal-inner-padding 0;
+	&:extend(.clearfix all); // clear it in case folks use .pull-* classes on buttons
+
+	// Properly space out buttons
+	.btn + .btn {
+		margin-left: 5px;
+		margin-bottom: 0; // account for input[type="submit"] which gets the bottom margin like all other inputs
+	}
+	// but override that for button groups
+	.btn-group .btn + .btn {
+		margin-left: -1px;
+	}
+	// and override it for block buttons as well
+	.btn-block + .btn-block {
+		margin-left: 0;
+	}
+}
+
+// Measure scrollbar width for padding body during modal show/hide
+.modal-scrollbar-measure {
+	position: absolute;
+	top: -9999px;
+	width: 50px;
+	height: 50px;
+	overflow: scroll;
+}
+
+// Scale up the modal
+@media (min-width: @screen-sm-min) {
+	// Automatically set modal's width for larger viewports
+	.modal-dialog {
+		bottom: 0;
+		position: fixed;
+		right: 0;
+		top: 0;
+		width: @modal-md;
+	}
+
+	// Modal sizes
+	.modal-sm { width: @modal-sm; }
+}
+
+@media (min-width: @screen-md-min) {
+	.modal-lg { width: @modal-lg; }
+}
+
+
+
+
+//
+// Close icons
+// --------------------------------------------------
+
+
+.close {
+	color: @text-color;
+	float: right;
+	font-size: 1.5em;
+	font-weight: bold;
+	line-height: 1;
+	opacity: .2;
+
+	&:hover,
+	&:focus {
+		color: inherit;
+		cursor: pointer;
+		opacity: .5;
+		text-decoration: none;
+	}
+
+	// Additional properties for button version
+	// iOS requires the button element instead of an anchor tag.
+	// If you want the anchor version, it requires `href="#"`.
+	button& {
+		background: transparent;
+		border: 0;
+		cursor: pointer;
+		padding: 0;
+		-webkit-appearance: none;
+	}
+}
+

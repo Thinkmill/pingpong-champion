@@ -1,0 +1,17 @@
+extends /templates/layouts/settings
+
+block header
+	.content-header: .app-container: .content-header-inner
+		a(href='/admins').headerbar-button
+			span.ion-arrow-left-c.mr-5
+			| Manage Admins
+		.headerbar-label Create Admin
+
+block content
+	form(method='post' novalidate autocomplete='off').form-horizontal
+		input(type='hidden', name='action', value='admin.create')
+		+flash-messages(messages)
+		include /templates/includes/form/new-admin
+		.form-actions
+			+button({ label: 'Create Admin',       type: 'submit'}).btn-primary
+			a(href='/admins').btn.btn-link.text-muted Cancel and go back

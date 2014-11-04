@@ -1,0 +1,29 @@
+extends /templates/layouts/settings
+
+block header
+	.content-header: .app-container: .content-header-inner
+		a(href='/admins').headerbar-button
+			span.ion-arrow-left-c.mr-5
+			| Manage Admins
+		.headerbar-label= admin.name.full
+
+block content
+	form(method='post' novalidate autocomplete='off').form-horizontal
+		input(type='hidden', name='action', value='admin.update')
+		+flash-messages(messages)
+		.form-group.form-row
+			label.form-col.form-col--one-quarter Admin Name
+			.form-col.form-col--three-quarters: .form-row
+				.form-col: +field({ type: 'text',  name: 'name.first',     value: admin.name.first, placeholder: 'First name' })
+				.form-col: +field({ type: 'text',  name: 'name.last',      value: admin.name.last, placeholder: 'Last name' })
+		+labelled-field({ label: 'Email Address', name: 'email',   type: 'email',    value: admin.email })
+		.form-group.form-row
+			label.form-col.form-col--one-quarter Password
+			.form-col.form-col--three-quarters
+					button(type='button' data-show='#change-password-fields' data-hide='this' data-init='true').btn.btn-default Change Password
+					#change-password-fields.form-row
+						.form-col: +field({ type: 'password',  name: 'password',         placeholder: 'New password' })
+						.form-col: +field({ type: 'password',  name: 'password_confirm', placeholder: 'Confirm password' })
+		.form-actions
+			a(href='?remove' data-confirm='Are you sure? This cannot be undone.').btn.btn-link.pull-right.text-danger Delete
+			+button({ label: 'Save changes',       type: 'submit'}).btn-primary

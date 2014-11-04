@@ -1,0 +1,99 @@
+extends /templates/layouts/settings
+
+block header
+	.content-header: .app-container: .content-header-inner
+		.headerbar-label Store Directory
+		button(type='button', data-toggle='modal', data-target='#modal-new-store').headerbar-button.right
+			span.ion-plus.mr-5
+			| New Store
+
+block content
+	table.table
+		col
+		col(width=200)
+		col(width=120)
+		col(width=120)
+		- var oldLetter = '';
+		thead
+			tr
+				th Name
+				th Phone
+				th Level
+				th Code
+		each store, i in stores
+			- var newLetter = store.name.slice(0,1).toLowerCase();
+			if oldLetter !== newLetter
+				tr: td(colspan=4).table-section= newLetter
+			- var oldLetter = newLetter;
+			tr
+				td: a(href='javascript:;' data-store='{ "name": "#{store.name}", "phone": "#{store.phone}", "level": "2", "code": "#{store.name.slice(0,1)}#{i}" }').store-item= store.name
+				td= store.phone
+				td= Math.floor(Math.random() * 6) + 1
+				td #{store.name.slice(0,1)}#{i}
+
+block modal
+	#modal-new-store(tabindex="-1", role="dialog", aria-labelledby="newstore", aria-hidden="true").modal
+		.modal-dialog
+			.modal-content
+				form(method='post' novalidate autocomplete='off').modal-form
+					input(type='hidden', name='action', value='store.create')
+					.modal-header
+						button(type="button" data-dismiss="modal" aria-hidden="true").headerbar-button.cancel-button Cancel
+						.modal-title New Store
+						button(type="submit" data-submit-label="Save").headerbar-button.right.is-primary
+
+					.modal-body
+						+labelled-chromeless-field({ label: 'Name',  placeholder: 'Store Name',      name: 'name',   value: formData ? formData.name : '' })
+						+labelled-chromeless-field({ label: 'Phone', placeholder: '(02) 9876 5432',  name: 'phone',  value: formData ? formData.phone : '' })
+						+labelled-chromeless-field({ label: 'Level', name: 'level',  value: formData ? formData.level : '' })
+						+labelled-chromeless-field({ label: 'Code',  name: 'code',   value: formData ? formData.code : '' })
+	
+	#modal-store(tabindex="-1", role="dialog", aria-labelledby="store", aria-hidden="true").modal
+		.modal-dialog
+			.modal-content
+				form(method='post' novalidate autocomplete='off').modal-form
+					input(type='hidden', name='action', value='store.edit')
+					.modal-header
+						button(type="button" data-dismiss="modal" aria-hidden="true").headerbar-button.cancel-button Cancel
+						.modal-title Store Details
+						button(type="submit" data-submit-label="Save").headerbar-button.right.is-primary
+
+					.modal-body
+						+labelled-chromeless-field({ label: 'Name',  placeholder: 'Store Name',      name: 'name',   value: formData ? formData.name : '' })
+						+labelled-chromeless-field({ label: 'Phone', placeholder: '(02) 9876 5432',  name: 'phone',  value: formData ? formData.phone : '' })
+						+labelled-chromeless-field({ label: 'Level', name: 'level',  value: formData ? formData.level : '' })
+						+labelled-chromeless-field({ label: 'Code',  name: 'code',   value: formData ? formData.code : '' })
+
+block js
+	script.
+		jQuery(function($) {
+
+			$('.store-item').each(function() {
+				
+				var $store = $(this),
+					$storeData = $store.data('store'),
+					$storeModal = $('#modal-store');
+
+				$store.click(function() {
+					$storeModal.modal();
+					
+					//- populate content
+					$storeModal.find('.modal-title').text($storeData.name);
+					
+					$storeModal.find('input[name=name]').val($storeData.name);
+					$storeModal.find('input[name=phone]').val($storeData.phone);
+					$storeModal.find('input[name=level]').val($storeData.level);
+					$storeModal.find('input[name=code]').val($storeData.code);
+				});
+
+			});
+		
+		});
+
+
+
+
+
+
+
+

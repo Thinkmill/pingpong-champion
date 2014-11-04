@@ -1,0 +1,17 @@
+//- Labelled checkbox
+//- 
+//- Offset the checkbox so its inline with the rest of the fields. Leaving the
+//- label column empty.
+//- 
+//- Accepted arguments:
+//- * field args (name, value, checked, disabled)
+
+include checkbox
+
+mixin labelled-checkbox(args)
+	.form-group.form-row
+		.form-col.form-col--one-quarter
+		.form-col.form-col--three-quarters
+			+checkbox(args)(id=attributes.id,class=attributes.class)
+			if args.note
+				.form-info= args.note

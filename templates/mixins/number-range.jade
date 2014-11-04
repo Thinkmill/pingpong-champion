@@ -1,0 +1,8 @@
+mixin number-range()
+	.g-row
+		.g-col.g-one-half: select().select-field
+			option() --
+			option() greater than
+			option() less than
+			option() between
+		.g-col.g-one-half: input(type='number' pattern='[0-9]*').field

@@ -1,4 +1,4 @@
-pingpong-champion
+PingPong Champion
 =================
 
 A scoring app

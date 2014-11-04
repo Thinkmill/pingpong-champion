@@ -1,0 +1,15 @@
+//- Address fields
+//- 
+//- Accepted arguments:
+//- * name
+//- * value (object)
+
+include field
+
+mixin address-field(args)
+	.field-group: +field({ type: 'text', name: args.name + '.street1', value: args.value ? args.value.street1 : null, placeholder: 'Street 1' })
+	.field-group: +field({ type: 'text', name: args.name + '.street2', value: args.value ? args.value.street2 : null, placeholder: 'Street 2' })
+	.field-group: +field({ type: 'text', name: args.name + '.suburb', value:  args.value ? args.value.suburb : null, placeholder: 'Suburb' })
+	.field-group.form-row
+		.form-col: +field({ type: 'text', name: args.name + '.state', value:  args.value ? args.value.state : null, placeholder: 'State' })
+		.form-col: +field({ type: 'text', name: args.name + '.postcode', value:  args.value ? args.value.postcode : null, placeholder: 'Postcode' })

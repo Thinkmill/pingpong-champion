@@ -1,0 +1,97 @@
+extends /templates/layouts/settings
+
+mixin admin-row(admin)
+	tr
+		td: a(href='javascript:;' data-admin=admin).admin-item= admin.name.full
+		td= admin.email
+		td: a(href='/admins/' + admin.id + '?remove' data-confirm='Are you sure? This cannot be undone').text-danger delete
+
+block header
+	.content-header: .app-container: .content-header-inner
+		.headerbar-label Manage Admins
+		button(type='button', data-toggle='modal', data-target='#modal-new-admin').headerbar-button.right
+			span.ion-plus.mr-5
+			| New Admin
+
+block content
+	+flash-messages(messages)
+	if admins.length
+		table.table
+			col
+			col
+			col(width=100)
+			thead
+				tr
+					th Name
+					th Email
+					th &nbsp;
+			tbody
+				for admin in admins
+					+admin-row(admin)
+	else
+		.no-results-message There aren't any admins yet.
+
+block modal
+	//- Modal: New Admin
+	#modal-new-admin(tabindex="-1", role="dialog", aria-labelledby="newadmin", aria-hidden="true").modal
+		.modal-dialog
+			.modal-content
+				form(method='post', action='/admins/create', novalidate).modal-form
+					input(type='hidden', name='action', value='admin.create')
+					.modal-header
+						button(type="button" data-dismiss="modal" aria-hidden="true").headerbar-button.cancel-button Cancel
+						.modal-title New Admin
+						button(type="submit" data-submit-label="Create").headerbar-button.right.is-primary
+					.modal-body
+						include /templates/includes/form/new-admin
+
+
+	//- Modal: Admin Details
+	#modal-admin(tabindex="-1", role="dialog", aria-labelledby="modalAdmin", aria-hidden="true").modal
+		.modal-dialog
+			.modal-content
+				form(method='post' novalidate autocomplete='off').modal-form
+					input(type='hidden', name='action', value='admin.update')
+					.modal-header
+						//- button(type="button" data-dismiss="modal" aria-hidden="true").headerbar-button.cancel-button Cancel
+						.modal-title Admin Details
+						//- button(type="submit" data-submit-label="Save").headerbar-button.right.is-primary
+						button(type="button" data-dismiss="modal" aria-hidden="true").headerbar-button.right.is-primary Done
+
+					.modal-body
+						+labelled-chromeless-field({ label: 'Name',   name: 'name.first' })
+						+labelled-chromeless-field({ label: '',   name: 'name.last' })
+						+labelled-chromeless-field({ label: 'Email',  name: 'email' })
+						//- +labelled-chromeless-readonly-field({ label: 'Gender', name: 'gender' })
+						//- +labelled-chromeless-readonly-field({ label: 'DOB',    name: 'dob' })
+
+block js
+	script.
+		jQuery(function($) {
+			// dynamic admin edit forms
+			$('.admin-item').each(function() {
+				
+				var $admin = $(this),
+					$adminData = $admin.data('admin'),
+					$adminModal = $('#modal-admin');
+
+				$admin.click(function() {
+					$adminModal.modal();
+					console.log($adminData);
+					console.log($adminModal);
+
+					$adminModal.find('.input-name').val($adminData.name.first);
+					$adminModal.find('.input-name').val($adminData.name.last);
+					$adminModal.find('.input-email').val($adminData.email);
+				});
+
+			});
+		
+		});
+
+
+
+
+
+
+

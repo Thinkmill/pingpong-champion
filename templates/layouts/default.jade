@@ -1,0 +1,58 @@
+include /templates/mixins/pagination
+include /templates/mixins/flash-messages
+include /templates/mixins/sortable-th
+include /templates/mixins/number-range
+include /templates/mixins/date-range
+
+include /templates/mixins/fields/labelled-field
+include /templates/mixins/fields/labelled-chromeless-field
+include /templates/mixins/fields/labelled-chromeless-readonly-field
+include /templates/mixins/fields/labelled-textarea
+include /templates/mixins/fields/labelled-address-field
+include /templates/mixins/fields/labelled-readonly-field
+include /templates/mixins/fields/labelled-checkbox
+include /templates/mixins/fields/labelled-button
+
+doctype html
+html
+
+	//- HTML HEADER
+	head
+		meta(charset="utf-8")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		meta(http-equiv="X-UA-Compatible" content="IE=edge")
+
+		title= title || 'PingPong Champion'
+		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+		link(href="/styles/app.min.css", rel="stylesheet")
+
+		block css
+			
+	body
+		include /templates/includes/layout/nav
+
+		.app-sidebar: .app-sidebar-inner
+			.sidebar-header
+				.headerbar-label PingPong Champion
+			block sidebar
+
+		block body
+			.app-content
+				block header
+				.content-body: .app-container
+					block content
+
+				include /templates/includes/layout/footer
+
+		block modal
+
+
+		//- JAVASCRIPT
+		script(src='/js/lib/jquery/jquery-1.11.1.min.js')
+		script(src='/js/lib/bootstrap/tooltip.js')
+		script(src='/js/lib/bootstrap/popover.js')
+		script(src='/js/lib/bootstrap/dropdown.js')
+		script(src='/js/lib/bootstrap/modal.js')
+		script(src='/js/ui.js')
+
+		block js

@@ -1,0 +1,204 @@
+//
+// Layout
+// ==============================
+
+
+@content-footer-stack-order: 1;
+@content-body-stack-order:   2;
+@content-header-stack-order: 3;
+
+
+
+
+// temp
+.pika-single {
+	// z-index: @zindex-popover;
+}
+
+
+
+// Setup
+// ------------------------------
+
+
+// base
+
+html,
+body {
+	height: 100%;
+}
+
+// remove visible scroll bars (arbitrary width )
+// probably over the top
+/*.app-wrapper {
+	.scrollable();
+	height: 100%;
+	position: fixed;
+
+	margin-right: -50px;
+	padding-right: 50px;
+}*/
+
+
+// common container to provide fixed width on larger desktops
+
+.app-container {
+	margin-right: auto;
+	margin-left: auto;
+	min-height: 100%;
+	padding-left:  @grid-gutter;
+	padding-right: @grid-gutter;
+	position: relative;
+}
+
+
+// nav
+
+.app-nav {
+	height: 100%;
+	min-height: 320px;
+	position: fixed;
+	width: @navbar-width;
+
+	z-index: 30; // stacked above the sidebar
+}
+
+
+// sidebar
+
+.app-sidebar {
+	.scrollable();
+	height: 100%;
+	position: fixed;
+	left: @navbar-width;
+	width: @sidebar-width;
+
+	z-index: 20; // stacked above the body so it can scroll intependently
+}
+
+
+// body
+
+.app-content {
+	padding-top: @headerbar-height + @grid-gutter;
+	z-index: 10;
+
+}
+
+
+// Content
+// ------------------------------
+
+.content-header,
+.content-body,
+.content-footer {
+	padding-left: @navbar-width + @sidebar-width;
+	position: relative;
+}
+
+// header
+
+.content-header {
+	.headerbar();
+	background-color: rgba(255, 255, 255, 0.9);
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: @content-header-stack-order;
+}
+.content-header-inner {
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+	position: relative;
+}
+
+
+// body
+
+.content-body {
+}
+
+
+// footer
+
+.content-footer {
+	color: #ddd;
+	font-weight: 300;
+	padding-bottom: @grid-gutter;
+	padding-top: @grid-gutter;
+	position: relative;
+	text-align: center;
+
+	a {
+		color: #ddd;
+
+		&:hover {
+			color: #ccc;
+		}
+	}
+}
+.content-footer-brand {
+	.size(140px, 50px);
+	.translate(-50%,-100%);
+	// background: data-uri('../images/logo.svg') no-repeat left top; // 1 less http request
+	content: "";
+	margin-left: (@navbar-width + @sidebar-width) / 2;
+	left: 50%;
+	opacity: .1;
+	position: absolute;
+	text-indent: -9999em;
+	top: 0;
+}
+
+// sticky footer
+.app-content {
+	.display-flex();
+	.flex-direction(column);
+	min-height: 100vh;
+}
+.content-body {
+	// .flex(1, 1, 0);
+	padding-bottom: @footer-height;
+	flex: 1;
+}
+
+
+
+
+// Screens below 480px wide
+// ------------------------------
+
+@media (max-width: @screen-xs-max) {
+}
+
+
+
+
+// Screens above 480px wide
+// ------------------------------
+
+@media (min-width: @screen-sm-min) {
+}
+
+
+
+
+// Screens above 768px wide
+// ------------------------------
+
+@media (min-width: @screen-md-min) {
+}
+
+
+
+
+// Screens above 1280px wide
+// ------------------------------
+
+@media (min-width: (1440 + @navbar-width + @sidebar-width)) {
+	.app-container {
+		max-width: 85%;
+	}
+}
+
+
+

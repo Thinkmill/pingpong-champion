@@ -1,0 +1,15 @@
+//- Base field with a label
+//- 
+//- Used inside '.form-horizontal' to display a label left of the field
+//- 
+//- Accepted arguments:
+//- * label
+//- * upload args (name, note)
+
+include upload
+
+mixin labelled-upload(args)
+	.form-group.form-row
+		label(for=attributes.id ? attributes.id : null).form-col.form-col--one-quarter= args.label
+		.form-col.form-col--three-quarters
+			+upload(args)(id=attributes.id,class=attributes.class)

@@ -1,0 +1,97 @@
+//
+// Pagination 
+// --------------------------------------------------
+
+
+// modifiers
+
+.pagination-container {
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
+	margin-top: @grid-gutter;
+	padding-top: @grid-gutter;
+	text-align: center;
+
+	// stop the pagination jumping between views when no page nav
+	line-height: 2em;
+	min-height: @font-size-base + (@padding-base-vertical * 2);
+}
+.pagination,
+.pagination-count {
+	.inline-align();
+	color: @gray-light;
+	margin: 0 1em 0 0;
+}
+.pagination--below {
+	margin-bottom: 0;
+}
+.pagination--above {
+	margin-top: 0;
+}
+
+
+// base
+
+.pagination {
+	display: inline-block;
+	padding-left: 0;
+	margin: 0;
+	border-radius: @border-radius;
+
+	> li {
+		display: inline; // Remove list-style and block-level defaults
+		> a,
+		> span {
+			// border: 1px solid transparent;
+			border-radius: @border-radius;
+			color: @gray;
+			float: left; // Collapse white-space
+			line-height: @line-height-base;
+			margin-left: -1px;
+			padding: @padding-base-vertical @padding-base-horizontal;
+			position: relative;
+			text-decoration: none;
+		}
+		&:first-child {
+			> a,
+			> span {
+				margin-left: 0;
+			}
+		}
+	}
+
+	> li > a,
+	> li > span {
+		&:hover,
+		&:focus {
+			background-color: mix(@link-color, white, 10%);
+			border-color: @pagination-hover-border;
+			color: @text-color;
+		}
+	}
+
+	> .active > a,
+	> .active > span {
+		&,
+		&:hover,
+		&:focus {
+			z-index: 2;
+			color: @pagination-active-color;
+			background-color: @pagination-active-bg;
+			border-color: @pagination-active-border;
+			cursor: default;
+		}
+	}
+
+	> .disabled {
+		> span,
+		> span:hover,
+		> span:focus,
+		> a,
+		> a:hover,
+		> a:focus {
+			color: @pagination-disabled-color;
+			cursor: not-allowed;
+			pointer-events: none;
+		}
+	}
+}

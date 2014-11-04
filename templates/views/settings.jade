@@ -1,0 +1,16 @@
+extends /templates/layouts/settings
+
+block header
+	.content-header: .app-container: .content-header-inner
+		.headerbar-label Centre Details
+
+block content
+	- var centreAddress = { 'street1': '500 Oxford St', 'suburb': 'Bondi Junction', 'state': 'NSW', 'postcode': '2022' };
+	form(method='post' novalidate autocomplete='off').form-horizontal
+		input(type='hidden', name='action', value='admin.update')
+		+flash-messages(messages)
+		+labelled-field({ label: 'Centre', name: 'name', value: 'Westfield Bondi Junction' })
+		+labelled-field({ label: 'Email', name: 'email', type: 'email', value: 'bondijunction@au.westfield.com' })
+		+labelled-address-field({ label: 'Address', name: 'address', value: centreAddress })
+		.form-actions
+			+button({ label: 'Save changes',       type: 'submit'}).btn-primary

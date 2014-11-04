@@ -1,0 +1,159 @@
+extends /templates/layouts/default
+
+block css
+	link(rel="stylesheet", href="/js/lib/pikaday/pikaday-1.2.0.min.css")
+
+block header
+	.content-header: .app-container: .content-header-inner
+		.headerbar-label= headerbarLabel
+		//- button(type='button', data-toggle='modal', data-target='#modal-new-player').headerbar-button.right
+			span.ion-plus.mr-1
+			| Add Player
+
+block sidebar
+	.sidebar-section
+		button(type='button', data-toggle='modal', data-target='#modal-new-player').btn.btn-primary.btn-block
+			span.ion-plus.mr-5
+			| Add Player
+
+block content
+	+flash-messages(messages)
+	if !players
+		.no-results
+			span.no-results-icon.ion-ios7-people
+			.no-results-heading No players found.
+			if searchterm
+				.no-results-message You can 
+					a(href=qs_set({ searchterm: undefined })) clear the search
+					|  to see results.
+			else
+				.no-results-message You can 
+					a(href=qs_set({ ageAfter: undefined, ageBefore: undefined, gender: undefined, visits: undefined, spend: undefined, carCount: undefined, lastVisitDate: undefined, joinedDate: undefined })) reset the filters
+					|  to see results.
+	else
+		table.table
+			col
+			//- col(width=100)
+			col(width=100)
+			col(width=100)
+			col(width=100)
+			col(width=100)
+			col(width=100)
+			thead
+				tr
+					+sortable-th('name.first', 'Player')
+					+sortable-th('gender', 'Gender')
+					+sortable-th('age', 'Age')
+					//- +sortable-th('handicap', 'Handicap')
+					+sortable-th('games', 'Games')
+					+sortable-th('wins', 'Wins')
+					+sortable-th('losses', 'Losses')
+			each player, i in players
+				tr
+					td
+						a(href='javascript:;' data-player=player).player-item
+							.ui-table-avatar.ion-person
+							= player.name.full
+					td= player.genderLabel
+					td= player.age ? player.age : '--'
+					//- //- td= Math.floor(Math.random() * 12) + 25
+					//- td= Math.floor(Math.random() * 10) + 1
+					td= player.totalGames
+					td= player.totalWins
+					td= player.totalLosses
+
+block modal
+	//- Modal: New Player
+	#modal-new-player(tabindex="-1", role="dialog", aria-labelledby="modalNewPlayer", aria-hidden="true").modal
+		.modal-dialog
+			.modal-content
+				form(method='post', novalidate).modal-form
+					input(type='hidden', name='action', value='player.create')
+					.modal-header.text-center
+						button(type="button" data-dismiss="modal" aria-hidden="true").headerbar-button.cancel-button Cancel
+						.modal-title New Player
+						button(type="submit" data-submit-label="Create").headerbar-button.right.is-primary
+					.modal-body
+						+labelled-chromeless-field({ label: 'Name',     name: 'name.first', placeholder: 'First name' })
+						+labelled-chromeless-field({ label: '',         name: 'name.last',  placeholder: 'Last name' })
+						+labelled-chromeless-field({ label: 'Email',    name: 'email',      placeholder: 'Email address', type: 'email' })
+						+labelled-chromeless-field({ label: 'Password', name: 'password',   placeholder: 'Set password', type: 'password' })
+						+labelled-chromeless-field({ label: '',         name: 'password_confirm', placeholder: 'Confirm password', type: 'password' })
+						.form-row.form-item
+							.form-col.form-label Gender
+							.form-col.form-control
+								.radio.inline: label
+									input(type='radio' name='gender' value='male')
+									|  Male
+								.radio.inline: label
+									input(type='radio' name='gender' value='female')
+									|  Female
+						+labelled-chromeless-field({ label: 'DOB',    name: 'dob' }).ui-datepicker
+
+
+	//- Modal: Player Details
+	#modal-player(tabindex="-1", role="dialog", aria-labelledby="modalPlayer", aria-hidden="true").modal
+		.modal-dialog
+			.modal-content
+				form(method='post' novalidate autocomplete='off').modal-form
+					input(type='hidden', name='action', value='player.update')
+					input(type='hidden', name='player', value='null')#editplayer-id
+					.modal-header
+						.modal-title Player Details
+						button(type="submit" data-submit-label="Save").headerbar-button.right.is-primary
+
+					.modal-body
+						+labelled-chromeless-field({ label: 'Name',     name: 'name.first', placeholder: 'First name' })#editplayer-name_first
+						+labelled-chromeless-field({ label: '',         name: 'name.last',  placeholder: 'Last name' })#editplayer-name_last
+						+labelled-chromeless-field({ label: 'Email',  name: 'email', placeholder: 'Email' })#editplayer-email
+						.form-row.form-item
+							.form-col.form-label Gender
+							.form-col.form-control#editplayer-gender
+								.radio.inline: label
+									input(type='radio' name='gender' value='male')
+									|  Male
+								.radio.inline: label
+									input(type='radio' name='gender' value='female')
+									|  Female
+						+labelled-chromeless-field({ label: 'DOB',    name: 'dob', placeholder: 'Date of Birth' })#editplayer-dob.ui-datepicker
+
+					//- Makes them inactive, deleting data is silly...
+					hr
+					a(href='?delete=' data-confirm='Are you sure? They wil be permanently removed.')#editplayer-delete.text-danger Delete
+
+block js
+	script(src="/js/lib/moment/moment.min.js")
+	script(src="/js/lib/pikaday/pikaday-1.2.0.min.js")
+	script(src="/js/lib/pikaday/pikaday.jquery-1.2.0.js")
+	script.
+		jQuery(function($) {
+			// date picker
+			$('.ui-datepicker').pikaday({
+				firstDay: 1
+			});
+
+			// dynamic player edit forms
+			$('.player-item').each(function() {
+				
+				var $player = $(this),
+					$playerData = $player.data('player'),
+					$playerModal = $('#modal-player');
+
+				$player.click(function() {
+					$playerModal.modal();
+					
+					//- populate content
+					//- $playerModal.find('.modal-title').text([$playerData.name.first,$playerData.name.last].join(' '));
+					
+					$('#editplayer-id').val($playerData._id);
+					$('#editplayer-delete').prop('href', '?delete=' + $playerData._id);
+					$('#editplayer-name_first').val($playerData.name.first);
+					$('#editplayer-name_last').val($playerData.name.last);
+					$('#editplayer-email').val($playerData.email);
+					$('#editplayer-gender').find('[value='+$playerData.gender+']').prop('checked', true);
+					$('#editplayer-dob').val($playerData.dob ? moment($playerData.dob).format('D MMM YYYY') : null);
+				});
+
+			});
+		
+		});

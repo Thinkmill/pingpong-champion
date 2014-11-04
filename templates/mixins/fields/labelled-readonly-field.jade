@@ -1,0 +1,17 @@
+//- Read only field
+//- 
+//- Seems redundant but it makes things tidier
+//- 
+//- Accepted arguments:
+//- * label (String)
+//- * value (String)
+//- * url (String) [optiona]
+
+mixin labelled-readonly-field(args)
+	.form-group.form-row
+		.form-col.form-col--one-quarter!= args.label
+		.form-col.form-col--three-quarters
+			if args.url
+				a(href=args.url, title='View the ' + args.label, id=attributes.id ? attributes.id : null, class=attributes.class ? attributes.class : null, target=args.target).field-readonly!= args.value
+			else
+				span(id=attributes.id ? attributes.id : null, class=attributes.class ? attributes.class : null).field-readonly!= args.value

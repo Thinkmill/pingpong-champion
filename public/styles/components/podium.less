@@ -1,0 +1,141 @@
+// 
+// Podium
+// ==============================
+
+
+// base
+
+.podium {
+	.display-flex();
+	.align-items(baseline);
+	.justify-content(center);
+}
+
+
+// rank
+
+.podium-rank {
+	max-width: 280px;
+	padding: 20px;
+	text-align: center;
+}
+
+// variants
+.podium-rank-first {
+	max-width: 360px;
+}
+
+
+// photo
+
+.podium-photo {
+	// border: 2px solid @gray-lighter;
+	border-radius: 50%;
+	overflow: hidden;
+	padding: 2px;
+}
+.podium-photo-src {
+	border-radius: 50%;
+	display: block;
+	max-width: 100%;
+}
+
+
+// text
+
+.podium-text {
+	background-color: white;
+	margin-top: -40px;
+	position: relative;
+}
+
+.podium-title {
+	font-size: 48px;
+	font-weight: 500;
+}
+.podium-subtitle {
+	color: @gray-light;
+	text-transform: uppercase;
+}
+
+
+
+
+// 
+// Dials
+// ==============================
+
+
+// base
+
+.player-dials {
+	.display-flex();
+	.align-items(baseline);
+	.justify-content(center);
+	margin-bottom: 20px;
+}
+
+
+// dial
+
+.player-dial-wrapper {
+	// padding: 10px;
+}
+
+.player-dial {
+	.square(100px);
+	line-height: 100px;
+	padding: 20px 33px;
+	text-align: center;
+}
+.player-dial-inner {
+	display: inline-block;
+	line-height: 1;
+}
+
+// variants
+.player-dial-score {
+	.square(140px);
+	border-radius: 50%;
+	box-shadow: inset 0 0 0 4px @gray-lighter;
+	line-height: 140px;
+	position: relative;
+
+	&:before,
+	&:after {
+		.square(140px);
+		.rotate(45deg);
+		border-radius: 50%;
+		border: 4px solid transparent;
+		border-top-color: @app-secondary;
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	&:after {
+		.rotate(125deg);
+	}
+}
+
+
+// icon
+
+.player-dials-icon {
+	color: @app-secondary;
+	font-size: 32px;
+}
+
+
+// copy
+
+.player-dials-title {
+	font-size: @font-size-large;
+	font-weight: 300;
+}
+.player-dials-subtitle {
+	color: @gray-light;
+	font-size: @font-size-small;
+	font-weight: 300;
+	// text-transform: uppercase;
+}

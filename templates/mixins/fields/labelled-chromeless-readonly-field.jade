@@ -1,0 +1,15 @@
+//- Ghost field with a label
+//- 
+//- Used inside '.form-horizontal' to display a label left of the field
+//- 
+//- Accepted arguments:
+//- * label
+//- * field args (type, name, value, placeholder)
+
+//- include chromeless-field
+
+mixin labelled-chromeless-readonly-field(args)
+	.form-row.form-item
+		label(for=attributes.id ? attributes.id : ('input-' + args.name)).form-col.form-label= args.label
+		.form-col.form-control
+			.chromeless-field(class='input-' + args.name)= args.value

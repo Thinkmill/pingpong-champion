@@ -1,0 +1,34 @@
+//- 
+//- Range Picker
+//- ------------------------------
+//- 
+//- JS Required:
+//- * /lib/moment/moment.min.js
+//- * /lib/pikaday/pikaday-1.2.0.min.js
+//- * /lib/pikaday/pikaday.jquery-1.2.0.js
+//- * /range-picker.js
+//- 
+//- CSS Required:
+//- /lib/pikaday/pikaday-1.2.0.min.css
+//- 
+//- Accepted arguments:
+//- * startname
+//- * startvalue
+//- * endname
+//- * endvalue
+
+mixin range-picker(args)
+	form(method='get', autocomplete='off' novalidate class=attributes['class'] id=attributes['id']).ui-rangepicker.js-rangepicker
+		span.ui-rangepicker-icon.ion-calendar
+		.ui-rangepicker-start
+			input(type='text' name=args.startname placeholder='From:' value=args.startvalue).ui-rangepicker.js-rangepicker-start-input
+			if args.startvalue
+				- var clearStart = {}; clearStart[args.startname] = undefined;
+				a(href=qs_set(clearStart)).ui-rangepicker.js-rangepicker-start-clear &times;
+		//- span.ui-rangepicker-divider
+		|  &mdash; 
+		.ui-rangepicker-end
+			input(type='text' name=args.endname placeholder='To:' value=args.endvalue).ui-rangepicker.js-rangepicker-end-input
+			if args.endvalue
+				- var clearEnd = {}; clearEnd[args.endname] = undefined;
+				a(href=qs_set(clearEnd)).ui-rangepicker.js-rangepicker-end-clear &times;

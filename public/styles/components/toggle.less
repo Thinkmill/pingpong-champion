@@ -1,0 +1,73 @@
+// 
+// Toggle
+// ------------------------------
+
+// base
+
+.toggle {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+}
+
+
+// options
+
+.toggle-item {
+	background-color: white;
+	border: 1px solid @link-color;
+	border-right-width: 0;
+	color: @link-color;
+	cursor: pointer;
+	display: table-cell;
+	font-size: @font-size-small;
+	font-weight: 500;
+	padding: @padding-base-vertical 0;
+	text-align: center;
+	// text-transform: uppercase;
+
+	&:first-child { .border-left-radius( @field-border-radius ); }
+	&:last-child { .border-right-radius( @field-border-radius ); border-right-width: 1px; }
+
+	&:hover,
+	&:focus {
+		text-decoration: none;
+	}
+	&.active {
+		background-color: @link-color;
+		color: white;
+	}
+}
+
+
+// controls • hide checkboxes and radios
+
+.toggle-control {
+	opacity: 0;
+	position: absolute;
+	z-index: -1;
+}
+
+
+// sizes
+
+.toggle-sm > .toggle-item {
+	font-size: @font-size-tiny;
+	padding: @padding-small-vertical 0;
+}
+
+
+// variants
+
+.toggle-variant(@color) {
+	border-color: @color;
+	color: darken(@color, 10%);
+
+	&.active {
+		background-color: @color;
+		color: white;
+	}
+}
+
+.toggle-muted > .toggle-item { .toggle-variant( #bbb ); }
+.toggle-info > .toggle-item { .toggle-variant( @app-info ); }

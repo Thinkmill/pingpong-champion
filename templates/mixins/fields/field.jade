@@ -1,0 +1,28 @@
+//- Base field
+//- 
+//- Accepted arguments:
+//- * type (String) : defaults to "text"
+//- * name (String)
+//- * value (String)
+//- * placeholder (String)
+
+mixin field(args)
+	input.field(
+		type=args.type ? args.type : 'text'
+		name=args.name ? args.name : null
+		value=args.value ? args.value : null
+		placeholder=args.placeholder ? args.placeholder : 'Enter the ' + args.name
+		class=(attributes.class ? attributes.class : '') + (args.class ? (attributes.class ? ' ' : '') + args.class : '')
+		id=attributes.id ? attributes.id : null
+		
+		autocomplete=attributes.autocomplete ? attributes.autocomplete : null
+		autofocus=attributes.autofocus ? attributes.autofocus : null
+		form=attributes.form ? attributes.form : null
+		formnovalidate=attributes.formnovalidate ? attributes.formnovalidate : null
+		list=attributes.list ? attributes.list : null
+		multiple=attributes.multiple ? attributes.multiple : null
+		pattern=attributes.pattern ? attributes.pattern : null
+		required=attributes.required ? attributes.required : null
+		step=attributes.step ? attributes.step : null)
+
+

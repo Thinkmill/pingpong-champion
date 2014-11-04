@@ -1,0 +1,251 @@
+// 
+// Panels
+// ==============================
+
+
+// base
+
+.panel {
+	.box-shadow( 0 1px 3px rgba(0,0,0,.06) );
+	background-clip: padding-box;
+	background-color: @panel-bg;
+	border: 1px solid @panel-border;
+	border-color: rgba(0, 0, 0, 0.06) rgba(0, 0, 0, 0.08) rgba(0, 0, 0, 0.12);
+	border-radius: @border-radius;
+	margin-bottom: @grid-gutter;
+}
+
+
+.panel-body {
+	padding: @panel-padding-vertical @panel-padding-horizontal;
+
+	& + & {
+		border-top: 1px solid @panel-border;
+	}
+	&:first-child {
+		.border-top-radius( @border-radius );
+	}
+	&:last-child {
+		.border-bottom-radius( @border-radius );
+	}
+}
+
+
+// header
+
+.panel-header {
+	box-shadow: 0 1px 0 @panel-border;
+	font-size: @font-size-large;
+	line-height: 1;
+	padding: @panel-padding-vertical @panel-padding-horizontal;
+	
+	a& {
+		color: @text-color;
+		display: block;
+	}
+}
+.panel-header-tag {
+	background-color: #fcfcfc;
+	border-bottom-right-radius: @border-radius;
+	border-top-left-radius: @border-radius;
+	box-shadow: -1px -1px 0 @panel-border inset;
+	color: @gray;
+	display: inline-block;
+	font-size: @font-size-large;
+	line-height: 1;
+	padding: @panel-padding-vertical @panel-padding-horizontal;
+}
+.panel-title {
+	.text-overflow();
+}
+.panel-backlink {
+	
+	> a {
+		color: @gray-light;
+		
+		&:hover,
+		&:focus {
+			color: @gray;
+			text-decoration: none;
+		}
+	}
+}
+
+
+// footer
+
+.panel-footer {
+	box-shadow: 0 -1px 0 @panel-border;
+	padding: @panel-padding-vertical @panel-padding-horizontal;
+	
+	a& {
+		color: @text-color;
+		display: block;
+		position: relative;
+
+		&:after {
+			transform: translateY(-50%);
+			border: 4px solid transparent;
+			border-left-color: @gray-light;
+			content: " ";
+			position: absolute;
+			right: @panel-padding-horizontal;
+			top: 50%;
+		}
+		&:hover,
+		&:focus {
+			background-color: darken(@panel-shadow, 2%);
+			outline: none;
+			text-decoration: none;
+
+			&:after {
+				border-left-color: @text-color;
+			}
+		}
+	}
+}
+
+
+
+// fixed height variants
+
+.panel-sm .panel-body { min-height: @panel-height-sm; }
+.panel-md .panel-body { min-height: @panel-height-md; }
+.panel-lg .panel-body { min-height: @panel-height-lg; }
+
+.panel-fixed-height { overflow: auto; }
+.panel-sm .panel-fixed-height { height: @panel-height-sm; }
+.panel-md .panel-fixed-height { height: @panel-height-md; }
+.panel-lg .panel-fixed-height { height: @panel-height-lg; }
+
+
+
+
+// Panel Nav
+// ------------------------------
+
+
+// Tabs
+
+.panel-tabs {
+	display: table;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	table-layout: fixed;
+	width: 100%;
+
+	.panel-tab {
+		display: table-cell;
+	}
+	.panel-tab + .panel-tab { border-left: 1px solid @panel-border; }
+	.panel-tab:first-child a { border-top-left-radius: 4px; }
+	.panel-tab:last-child a  { border-top-right-radius: 4px; }
+	a {
+		background-color: #fcfcfc;
+		border-bottom: 1px solid @panel-border;
+		// color: @link-color;
+		display: block;
+		font-size: @font-size-large;
+		line-height: 1;
+		padding: @panel-padding-vertical @panel-padding-horizontal;
+		text-align: center;
+		
+		&:hover,
+		&:focus {
+			background-color: white;
+			outline: none;
+		}
+		&:active {
+			background-color: #fcfcfc;
+		}
+	}
+	.active a {
+		background-color: white;
+		border-bottom-color: white;
+		color: @text-color;
+	}
+}
+
+
+// List (under heading)
+
+.panel-nav {
+	.clearfix();
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	> li {
+		float: left;
+		padding-bottom: 2px;
+		padding-top: 2px;
+		position: relative;
+
+		&.right {
+			float: right;
+		}
+
+		// add a little divider between nav items
+		&:before {
+			background-color: @panel-border;
+			content: " ";
+			left: 0;
+			height: 1em;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 1px;
+			z-index: 1;
+		}
+		&:first-child:before,
+		&.no-border:before {
+			display: none;
+		}
+	}
+
+	> li > a {
+		border-radius: @border-radius;
+		color: @gray;
+		display: block;
+		padding-left: @panel-padding-horizontal;
+		padding-right: @panel-padding-horizontal;
+		position: relative;
+		text-decoration: none;
+
+		> span {
+			display: inline-block;
+			padding-bottom: @padding-base-vertical;
+			padding-top: @padding-base-vertical;
+		}
+
+		&:hover {
+			color: @text-color;
+		}
+	}
+
+	// active page
+	> .active > a {
+		color: @text-color;
+
+		> span {
+			box-shadow: 0 3px 0 @link-color;
+		}
+	}
+}
+
+// icons in the nav
+
+.panel-nav-icon {
+	color: rgba(0, 0, 0, 0.3);
+	font-size: @ui-fontsize;
+}
+
+
+
+
+
+
+
+
+

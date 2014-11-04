@@ -1,0 +1,335 @@
+//
+// Variables
+// ==============================
+
+
+// Colors
+// ------------------------------
+
+@gray-darker:            lighten(#000, 13.5%); // #222
+@gray-dark:              lighten(#000, 20%);   // #333
+@gray:                   lighten(#000, 40%); // #666
+@gray-light:             lighten(#000, 60%); // #999
+@gray-lighter:           lighten(#000, 93.5%); // #eee
+
+@app-primary:            #43c5b8;
+@app-secondary:          #f56363;
+
+@app-create:             #0bd318;
+@app-success:            #068043;
+@app-info:               #69c1f3;
+@app-hilight:            #9696ec;
+@app-warning:            #fec168;
+@app-danger:             #bf2113;
+
+@gold:                   #f1b210;
+@silver:                 #bfc6c9;
+@bronze:                 #b7722c;
+
+
+// Scaffolding
+// ------------------------------
+
+@body-bg:               white;
+@text-color:            @gray-darker;
+
+// @link-color:            #007aff; // iOS blue
+@link-color:            @app-primary;
+@link-hover-color:      lighten(@link-color, 5%);
+
+
+// Typography
+// ------------------------------
+
+@font-family-sans-serif:  Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+@font-family-serif:       "Times New Roman", Times, Georgia, serif;
+@font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
+@font-family-base:        @font-family-sans-serif;
+
+@font-size-tiny:          12px;
+@font-size-small:         14px;
+@font-size-base:          16px;
+@font-size-large:         18px;
+@font-size-huge:          24px;
+@font-size-massive:       32px;
+
+@line-height-base:        1.4;
+@line-height-computed:    floor((@font-size-base * @line-height-base));
+
+@hr-border:               rgba(0, 0, 0, 0.1);
+
+@headings-font-family:    @font-family-base;
+@headings-font-weight:    400;
+@headings-line-height:    1.1;
+@headings-color:          inherit;
+
+@font-size-h1:             36px;
+@font-size-h2:             24px;
+@font-size-h3:             18px;
+@font-size-h4:             16px;
+@font-size-h5:             14px;
+@font-size-h6:             12px;
+
+
+// Components
+// ------------------------------
+
+// bars
+
+@navbar-width:               60px;
+@navbar-gutter:              5px;
+@navbar-bg:                  @text-color;
+@navbar-item-color:          mix(@navbar-bg, white, 30%);
+@navbar-item-bg:             darken(@navbar-bg, 5%);
+@navbar-item-hover-bg:       darken(@navbar-bg, 8%);
+@navbar-item-hover-color:    white;
+@navbar-item-active-bg:      darken(@navbar-bg, 12%);
+@navbar-item-active-color:   white;
+@navbar-item-selected-bg:    lighten(@navbar-bg, 10%);
+@navbar-item-selected-color: white;
+
+@headerbar-color:            @text-color;
+@headerbar-height:           60px;
+@headerbar-button-color:     @app-primary;
+@headerbar-button-color-alt: @app-secondary;
+
+// footer
+
+@footer-height:              100px;
+
+// spacing
+
+@padding-base-vertical:     8px;
+@padding-base-horizontal:   12px;
+
+@padding-small-vertical:     4px;
+@padding-small-horizontal:   10px;
+
+// misc
+
+@content-max-width:          1280px;
+@grid-gutter:                20px;
+@border-radius:              4px;
+@ui-fontsize:                14px;
+@dl-horizontal-offset:       60px;
+
+// for UI select and table sorting
+@comboarrow-size: 4px;
+
+
+// panels
+
+@panel-padding-vertical:     16px;
+@panel-padding-horizontal:   20px;
+
+@panel-header-height:        50px;
+@panel-height-sm:            200px;
+@panel-height-md:            (@panel-height-sm * 2) + (@panel-padding-vertical * 2) + @font-size-large + @grid-gutter;
+@panel-height-lg:            (@panel-height-sm * 3) + (@panel-padding-vertical * 4) + (@font-size-large * 2) + (@grid-gutter * 2);
+
+@panel-bg:                   white;
+@panel-border:               mix(black, @body-bg, 4%);
+@panel-shadow:               mix(black, @panel-border, 4%);
+
+
+// sidebar
+
+@sidebar-width:             260px;
+@sidebar-bg:                #f5f5f5;
+@sidebar-border:            #eee;
+
+
+
+
+// Dropdowns
+// ------------------------------
+
+@dropdown-bg:                    #fff;
+@dropdown-border:                rgba(0,0,0,.15);
+@dropdown-fallback-border:       #ccc;
+@dropdown-divider-bg:            #e5e5e5;
+
+@dropdown-link-color:            @gray-dark;
+@dropdown-link-hover-color:      darken(@gray-dark, 5%);
+@dropdown-link-hover-bg:         #f5f5f5;
+
+@dropdown-link-active-color:     white;
+@dropdown-link-active-bg:        @link-color;
+
+@dropdown-link-disabled-color:   @gray-light;
+
+@dropdown-header-color:          @gray-light;
+
+@dropdown-caret-color:           #000;
+
+
+
+
+// Alerts
+// ------------------------------
+
+@alert-padding:               15px;
+@alert-border-radius:         @border-radius;
+
+@alert-success-bg:            mix(@app-success, white, 10%);
+@alert-success-text:          @app-success;
+@alert-success-border:        darken(@alert-success-bg, 5%);
+
+@alert-info-bg:               mix(@app-info, white, 10%);
+@alert-info-text:             @app-info;
+@alert-info-border:           darken(@alert-info-bg, 5%);
+
+@alert-warning-bg:            mix(@app-warning, white, 10%);
+@alert-warning-text:          @app-warning;
+@alert-warning-border:        darken(@alert-warning-bg, 5%);
+
+@alert-danger-bg:             mix(@app-danger, white, 10%);
+@alert-danger-text:           @app-danger;
+@alert-danger-border:         darken(@alert-danger-bg, 5%);
+
+
+
+
+// Modals
+// ------------------------------
+
+@modal-inner-padding:         30px;
+
+@modal-content-bg:                             #fff;
+@modal-content-border-color:                   rgba(0,0,0,.15);
+@modal-content-fallback-border-color:          #aaa;
+
+@modal-backdrop-bg:           @body-bg;
+@modal-backdrop-opacity:      .75;
+@modal-header-border-color:   #e5e5e5;
+@modal-footer-border-color:   @modal-header-border-color;
+
+@modal-lg:                    900px;
+@modal-md:                    640px;
+@modal-sm:                    300px;
+
+
+// Pagination
+// ------------------------------
+
+@pagination-color:            @link-color;
+@pagination-bg:               #fff;
+@pagination-border:           #ddd;
+
+@pagination-hover-color:      @link-hover-color;
+@pagination-hover-bg:         @gray-lighter;
+@pagination-hover-border:     #ddd;
+
+@pagination-active-color:     #fff;
+@pagination-active-bg:        @app-primary;
+@pagination-active-border:    @app-primary;
+
+@pagination-disabled-color:   @gray-light;
+@pagination-disabled-bg:      #fff;
+@pagination-disabled-border:  #ddd;
+
+
+
+// Forms
+// ------------------------------
+
+@field-color:                 @gray-dark;
+@field-bg:                    #fcfcfc;
+@field-border:                #ddd;
+@field-border-radius:         3px;
+@field-border-focus:          darken(@field-border, 10%);
+@field-placeholder:           #aaa;
+@field-height-base:           (@line-height-computed + (@padding-base-vertical * 2) + 2);
+
+@field-height:                36px;
+@field-padding-vertical:      @padding-base-vertical;
+@field-padding-horizontal:    @padding-base-horizontal;
+
+
+
+
+// Progress bars
+// ------------------------------
+
+@progress-bg:                 #f5f5f5;
+@progress-bar-color:          #fff;
+
+@progress-bar-bg:             @app-primary;
+@progress-bar-success-bg:     @app-success;
+@progress-bar-warning-bg:     @app-warning;
+@progress-bar-danger-bg:      @app-danger;
+@progress-bar-info-bg:        @app-info;
+
+
+// Tooltips
+// -------------------------
+@tooltip-max-width:           200px;
+@tooltip-color:               #fff;
+@tooltip-bg:                  #000;
+
+@tooltip-arrow-width:         5px;
+@tooltip-arrow-color:         @tooltip-bg;
+
+
+// Popovers
+// -------------------------
+@popover-bg:                          #fff;
+@popover-max-width:                   276px;
+@popover-border-color:                rgba(0,0,0,.2);
+@popover-fallback-border-color:       #ccc;
+
+@popover-title-bg:                    darken(@popover-bg, 3%);
+
+@popover-arrow-width:                 10px;
+@popover-arrow-color:                 #fff;
+
+@popover-arrow-outer-width:           (@popover-arrow-width + 1);
+@popover-arrow-outer-color:           rgba(0,0,0,.25);
+@popover-arrow-outer-fallback-color:  #999;
+
+
+
+
+// Z-Index
+// ------------------------------
+
+@zindex-navbar:            1000;
+@zindex-dropdown:          1000;
+@zindex-popover:           1060;
+@zindex-tooltip:           1070;
+@zindex-navbar-fixed:      1030;
+@zindex-modal-background:  1040;
+@zindex-modal:             1050;
+
+
+
+
+// Media queries breakpoints
+// ------------------------------
+
+@screen-xs:                  480px;
+@screen-xs-min:              @screen-xs;
+
+@screen-sm:                  768px;
+@screen-sm-min:              @screen-sm;
+
+@screen-md:                  992px;
+@screen-md-min:              @screen-md;
+
+@screen-lg:                  1200px;
+@screen-lg-min:              @screen-lg;
+
+// So media queries don't overlap when required, provide a maximum
+@screen-xs-max:              (@screen-sm-min - 1);
+@screen-sm-max:              (@screen-md-min - 1);
+@screen-md-max:              (@screen-lg-min - 1);
+
+
+
+
+
+
+
+
+
+

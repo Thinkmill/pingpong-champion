@@ -1,0 +1,312 @@
+extends /templates/layouts/default
+
+include /templates/mixins/range-picker
+
+block css
+	link(rel="stylesheet", href="/js/lib/pikaday/pikaday-1.2.0.min.css")
+
+block header
+	.content-header: .app-container: .content-header-inner
+		.headerbar-label= headerbarLabel
+
+block sidebar
+	#custom-date-range-wrapper.sidebar-section
+		//- .mini-heading
+			span.ion-calendar.mr-1
+			| Date Range
+		#custom-date-range-dropdown.date-select
+			button(data-toggle='dropdown' title="#{moment(current.reportAfter).format('MMM DD, YYYY')} to #{moment(current.reportBefore).format('MMM DD, YYYY')}").btn.date-select-button
+				span.date-select-icon.ion-calendar.mr-1
+				span.date-select-label #{moment(current.reportAfter).format('DD/MM/YY')}&nbsp;<span class="text-muted">&mdash;</span>&nbsp;#{moment(current.reportBefore).format('DD/MM/YY')}
+				span.caret
+			ul.dropdown-menu.date-select-menu
+				li: a(href='javascript:;')#custom-date-range-trigger
+					span.ion-chevron-right.text-muted.pull-right
+					| Custom date range
+				li.divider
+				li: a(href=qs_set({ reportAfter: relativeDates.startOfToday,      reportBefore: relativeDates.endOfToday })) Today
+				li: a(href=qs_set({ reportAfter: relativeDates.startOfYesterday,  reportBefore: relativeDates.endOfYesterday })) Yesterday
+				li: a(href=qs_set({ reportAfter: relativeDates.oneWeekAgo,        reportBefore: relativeDates.endOfToday })) Past week
+				li: a(href=qs_set({ reportAfter: relativeDates.oneMonthAgo,       reportBefore: relativeDates.endOfToday })) Past month
+				li: a(href=qs_set({ reportAfter: relativeDates.threeMonthsAgo,    reportBefore: relativeDates.endOfToday })) Past 3 months
+				li: a(href=qs_set({ reportAfter: relativeDates.sixMonthsAgo,      reportBefore: relativeDates.endOfToday })) Past 6 months
+				li: a(href=qs_set({ reportAfter: relativeDates.twelveMonthsAgo,   reportBefore: relativeDates.endOfToday })) Past 12 months
+	.sidebar-section
+		.toggle.toggle
+			a(href=qs_set({ metric: 'singles' }) class=current.metric === 'singles' ? 'active' : null).toggle-item Singles
+			a(href=qs_set({ metric: 'doubles' }) class=current.metric === 'doubles' ? 'active' : null).toggle-item Doubles
+	
+	.sidebar-section
+		.mini-heading
+			span.ion-funnel.mr-1
+			| Dimensions
+		.sidebar-nav
+			a(href=qs_set({ dimension: 'players' }) class=current.dimension === 'players' ? 'active' : null).sidebar-nav-item Players
+			a(href=qs_set({ dimension: 'age' }) class=current.dimension === 'age' ? 'active' : null).sidebar-nav-item Age
+			a(href=qs_set({ dimension: 'suburb' }) class=current.dimension === 'suburb' ? 'active' : null).sidebar-nav-item Suburb
+			a(href=qs_set({ dimension: 'cars' }) class=current.dimension === 'cars' ? 'active' : null).sidebar-nav-item Cars
+			a(href=qs_set({ dimension: 'gates' }) class=current.dimension === 'gates' ? 'active' : null).sidebar-nav-item Gates
+			a(href=qs_set({ dimension: 'rates' }) class=current.dimension === 'rates' ? 'active' : null).sidebar-nav-item Rates
+
+mixin th-checkbox(checked)
+	th
+		label(title='Plot all rows').ui-table-checkbox-label
+			input(type='checkbox' checked=checked).plot-all-rows
+mixin td-checkbox(checked)
+	td
+		label(title='Plot this rows').ui-table-checkbox-label
+			input(type='checkbox' checked=checked)
+
+block content
+	//- Chart
+	.mb-2(style="overflow: hidden;")
+		canvas(id="line-chart" width=1400 height=400)
+	
+	//- Gender Table
+	if current.dimension === 'players'
+		table.table
+			col(width=50)
+			thead
+				tr
+					+th-checkbox(false)
+					th Gender
+					th Visits
+					th % Unique
+					th Unique
+					th Avg. Duration
+			tbody
+				tr
+					td &nbsp;
+					td Total
+					td 5,980
+					td 38%
+					td 1121
+					td 2:07
+				tr
+					+td-checkbox(true)
+					td Male
+					td 1,631
+					td 22%
+					td 796
+					td 2:16
+				tr
+					+td-checkbox(true)
+					td Female
+					td 4,349
+					td 16%
+					td 329
+					td 1:49
+
+	//- Gates Table
+	if current.dimension === 'age'
+		table.table
+			col(width=50)
+			thead
+				tr
+					+th-checkbox(false)
+					th Age
+					th Revenue
+					th % Revenue
+			tbody
+				tr
+					td &nbsp;
+					td Total
+					td $39,799
+					td 100%
+				tr
+					+td-checkbox(true)
+					td 20-30
+					td $17,699
+					td 40%
+				tr
+					+td-checkbox(false)
+					td 30-40
+					td $9,600
+					td 25%
+				tr
+					+td-checkbox(false)
+					td 40-50
+					td $11,900
+					td 30%
+				tr
+					+td-checkbox(true)
+					td 50+
+					td $600
+					td 5%
+
+	//- Gates Table
+	if current.dimension === 'gates'
+		table.table
+			col(width=50)
+			thead
+				tr
+					+th-checkbox(false)
+					th Gates
+					th Revenue
+					th % Revenue
+			tbody
+				tr
+					td &nbsp;
+					td Total
+					td $39,799
+					td 100%
+				tr
+					+td-checkbox(true)
+					td Gate 1 - North
+					td $17,699
+					td 40%
+				tr
+					+td-checkbox(true)
+					td Gate 2 - South
+					td $9,600
+					td 25%
+				tr
+					+td-checkbox(false)
+					td Gate 3 - East
+					td $12,500
+					td 35%
+
+block js
+	script(src="/js/lib/moment/moment.min.js")
+	script(src="/js/lib/pikaday/pikaday-1.2.0.min.js")
+	script(src="/js/lib/pikaday/pikaday.jquery-1.2.0.js")
+	script(src='/js/lib/chartjs/Chart.min.js')
+	script.
+		$(function() {
+
+			var daterangeDropdown = $('#custom-date-range-dropdown'),
+				daterangeTrigger = $('#custom-date-range-trigger');
+
+			//- popover
+			var popoverContent = (
+				'<form method="get">'
+			+		'<div class="g-row">'
+			+			'<div class="g-col g-one-half">'
+			+					'<div class="mini-heading">From</div>'
+			+					'<input type="text" class="field ui-datepicker" value="2013-10-01" placeholder="From:" name="reportAfter">'
+			+				'</div>'
+			+				'<div class="g-col g-one-half">'
+			+					'<div class="mini-heading">To</div>'
+			+					'<input type="text" class="field ui-datepicker" value="2014-10-01" placeholder="To:" name="reportBefore">'
+			+				'</div>'
+			+			'</div>'
+			+		'</div>'
+			+		'<div class="mt-1">'
+			+			'<button type="submit" class="btn btn-block btn-primary">Apply </button>'
+			+		'</div>'
+			+	'</form>');
+
+			
+			// popover options
+			daterangeTrigger.popover({
+				trigger: 'click',
+				container: 'body',
+				placement: 'right',
+				html: true,
+				content: popoverContent
+			});
+
+			// stop the dropdown closing when user clicks "custom date range"
+			daterangeDropdown.on('hide.bs.dropdown', function () {
+				return false;
+			});
+			// close the dropdown if the body is clicked
+			//- $('body').on('click', function (e) {
+			//- 	console.log(e.target);
+			//- 	console.log($(e.target));
+			//- 	console.log($('#custom-date-range-trigger'));
+			//- 	console.log($(e.target) === $('#custom-date-range-trigger'));
+			//- 	if ($(e.target).hasClass('.popover')) {
+			//- 		daterangeDropdown.removeClass('open');
+			//- 	}
+			//- });
+			
+
+			// date picker
+			daterangeTrigger.click(function() {
+				$('.ui-datepicker').focus(function() {
+					console.log('hello');
+				});
+			});
+			//- console.log(datePickers);
+			//- datePickers.each(function() {
+			//- 	$(this).focus(function() {
+			//- 		console.log($(this));
+			//- 	});
+			//- });
+		});
+	script.
+		var randomPlot = function(){ return Math.round(Math.random()*100)};
+		var lineChartData = {
+			labels : ["January","February","March","April","May","June","July"],
+			datasets : [
+				//- red
+				{
+					label: "My First dataset",
+					fillColor: "rgba(220,220,220,0.1)",
+					strokeColor: "rgba(220,220,220,1)",
+					pointColor: "rgba(220,220,220,1)",
+					pointStrokeColor: "#fff",
+					pointHighlightFill: "#fff",
+					pointHighlightStroke: "rgba(220,220,220,1)",
+					data: [randomPlot(), randomPlot(), randomPlot(), randomPlot(), randomPlot(), randomPlot(), randomPlot()]
+				},
+				//- blue
+				{
+					label: "My Second dataset",
+					fillColor: "rgba(52,152,219,0.1)",
+					strokeColor: "rgba(52,152,219,1)",
+					pointColor: "rgba(52,152,219,1)",
+					pointStrokeColor: "#fff",
+					pointHighlightFill: "#fff",
+					pointHighlightStroke: "rgba(52,152,219,1)",
+					data: [randomPlot(), randomPlot(), randomPlot(), randomPlot(), randomPlot(), randomPlot(), randomPlot()]
+				}
+			]
+
+		}
+		var doughnutData = [
+			{
+				value: 300,
+				color:"#F7464A",
+				highlight: "#FF5A5E",
+				label: "Red"
+			},
+			{
+				value: 50,
+				color: "#46BFBD",
+				highlight: "#5AD3D1",
+				label: "Green"
+			},
+			{
+				value: 100,
+				color: "#FDB45C",
+				highlight: "#FFC870",
+				label: "Yellow"
+			},
+			{
+				value: 40,
+				color: "#949FB1",
+				highlight: "#A8B3C5",
+				label: "Grey"
+			},
+			{
+				value: 120,
+				color: "#4D5360",
+				highlight: "#616774",
+				label: "Dark Grey"
+			}
+		];
+
+		window.onload = function(){
+			var line_ctx = document.getElementById("line-chart").getContext("2d");
+			window.myLine = new Chart(line_ctx).Line(lineChartData, {
+				responsive: true
+			});
+			//- window.myDoughnut = new Chart(donut_ctx_1).Doughnut(doughnutData, {
+			//- 	responsive : true
+			//- });
+			//- window.myDoughnut = new Chart(donut_ctx_2).Doughnut(doughnutData, {
+			//- 	responsive : true
+			//- });
+		}

@@ -1,0 +1,4 @@
+mixin sortable-th(key, name, title, colspan)
+	th(colspan=colspan)
+		a.th-sort(href=thsort_url(key) class=thsort_class(key) title=thsort_title(key, name, title))= name
+			span.th-sort__icon

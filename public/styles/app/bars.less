@@ -1,0 +1,193 @@
+// 
+// Bars
+// ==============================
+
+
+
+
+// Header Bar
+// ------------------------------
+
+// view label
+
+.headerbar-label {
+	.text-overflow();
+	font-weight: 500;
+	line-height: @headerbar-height;
+	min-width: @headerbar-height;
+	// position: absolute;
+	// width: 70%;
+	
+	&:only-child {
+		text-align: left;
+		width: auto;
+	}
+	.headerbar-button + & {
+		padding-left: @padding-base-horizontal;
+		padding-right: @padding-base-horizontal;
+		text-align: center;
+	}
+}
+
+// button
+
+.headerbar-button {
+	background: none transparent;
+	border: 0 none;
+	color: @headerbar-button-color;
+	cursor: pointer;
+	left: 0;
+	line-height: @headerbar-height;
+	height: @headerbar-height;
+	padding: 0;
+	position: absolute;
+	text-align: center;
+	text-decoration: none;
+	top: 0;
+	-webkit-appearance: none;
+	z-index: 2;
+
+	// align button right
+	&.right {
+		left: auto;
+		right: 0;
+	}
+
+	// darken button on tap
+	&:hover,
+	&:active,
+	&:focus {
+		color: lighten(@headerbar-button-color, 10%);
+		outline: none;
+	}
+
+	// alert users to disabled state
+	&.disabled,
+	&[disabled] {
+		pointer-events: none;
+		opacity: .5;
+	}
+
+	&.alt {
+		color: @headerbar-button-color-alt;
+	}
+}
+
+// an item needs margin to vertically align it with the other headerbar elements
+
+.headerbar-item {
+	line-height: @headerbar-height;
+}
+
+
+// variants
+
+.cancel-button {
+	color: @gray-light;
+
+	&:hover,
+	&:active,
+	&:focus {
+		color: @gray;
+	}
+}
+
+// .save-button {
+// 	color: @app-create;
+
+// 	&:hover,
+// 	&:active,
+// 	&:focus {
+// 		color: lighten(@app-create, 10%);
+// 	}
+// }
+
+
+// common attributes for icons + labels
+
+.headerbar-button-icon,
+.headerbar-button-label {
+	.inline-align(top);
+	padding-left: @padding-base-horizontal;
+	padding-right: @padding-base-horizontal;
+}
+
+
+// button icons
+
+.headerbar-button-icon {
+	font-size: @font-size-large;
+}
+
+
+// button labels
+
+.headerbar-button-label {
+	
+	// primary header action
+	&.is-primary {
+		font-weight: 500;
+	}
+
+	// pull the label closer when next to an icon
+	.headerbar-button-icon + & {
+		margin-left: -(@padding-base-horizontal / 2);
+		padding-left: 0;
+	}
+}
+
+
+
+
+// Filter Bar
+// ------------------------------
+
+.filterbar {
+	&:extend(.clearfix all);
+	margin-bottom: @grid-gutter;
+	text-align: center;
+}
+.filterbar-label {
+	color: @gray-light;
+	margin-top: 10px;
+}
+
+
+
+
+// Toggle
+// ------------------------------
+
+// base
+
+.toggle.headerbar-toggle {
+	.display-flex();
+	.align-items(center);
+	.translateX( -50% );
+	height: 100%;
+	line-height: 1;
+	margin-top: -1px;
+	position: absolute;
+	left: 50%;
+	top: 0;
+	width: auto;
+	z-index: 2;
+}
+
+
+// options
+
+.toggle-item.headerbar-toggle-item {
+	.align-self(center);
+	min-width: 100px;
+	display: block;
+}
+
+
+
+
+
+
+
+
+

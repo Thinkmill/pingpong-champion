@@ -1,0 +1,133 @@
+/*
+	Range Picker
+
+	Using the pikaday plugin provide a helpful UI for picking a from
+	and to date.
+
+	<form class="ui-rangepicker" novalidate="" autocomplete="off" method="get">
+		<span class="ui-rangepicker-icon ion-calendar"></span>
+	  <div class="ui-rangepicker-start">
+	    <input type="text" class="ui-rangepicker-start-input" value="1 Jun 2014" placeholder="From:" name="issuedAfter">
+	    <a class="ui-rangepicker-start-clear" href="...">×</a>
+	  </div> &mdash; 
+	  <div class="ui-rangepicker-end">
+	    <input type="text" class="ui-rangepicker-end-input" value="30 Jun 2014" placeholder="To:" name="issuedBefore">
+	    <a class="ui-rangepicker-end-clear" href="...">×</a>
+	  </div>
+	</form>
+*/
+
+
+
+// wrapper
+
+.ui-rangepicker {
+	.field();
+	color: @gray-light;
+	cursor: text;
+	padding: 3px;
+	width: auto;
+}
+
+
+// date nodes
+
+.ui-rangepicker-start,
+.ui-rangepicker-end {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+
+// common for input and clear
+
+.ui-rangepicker-start-input,
+.ui-rangepicker-end-input,
+.ui-rangepicker-start-clear,
+.ui-rangepicker-end-clear {
+	.inline-align();
+	.placeholder(transparent);
+	background-color: mix(@app-info, white, 15%);
+	border: 0 none;
+	cursor: pointer;
+	height: @field-height-base - 8px;
+	line-height: @field-height-base - 8px;
+	padding: 0 6px;
+
+	&:hover {
+		background-color: mix(@app-info, white, 30%);
+	}
+
+	&:focus,
+	&:active,
+	&.active {
+		background-color: @app-info;
+		border-color: @app-info;
+		outline: none;
+		text-shadow: 1px 1px 0 white;
+	}
+}
+
+
+// inputs
+
+.ui-rangepicker-start-input,
+.ui-rangepicker-end-input {
+	.border-left-radius(@border-radius);
+	color: transparent;
+	font-size: .9em;
+	padding-bottom: 1px; // offset the text-shadow
+	text-shadow: 1px 1px 0 mix(@app-info, @text-color, 33%);
+	width: 85px;
+
+	&:only-child {
+		.border-right-radius(@border-radius);
+	}
+}
+
+
+// divider
+
+.ui-rangepicker-divider {
+	.size(10px,2px);
+	.inline-align();
+	background-color: #ccc;
+	margin: 0 .5em;
+}
+
+
+// clears
+
+.ui-rangepicker-start-clear,
+.ui-rangepicker-end-clear {
+	.border-right-radius(@border-radius);
+	color: mix(@app-info, @gray-light, 33%);
+	line-height: @field-height-base - 12px;
+	margin-left: 1px;
+	text-decoration: none;
+
+	&:hover {
+		color: mix(@app-info, @gray, 33%);
+		text-decoration: none;
+		text-shadow: none;
+	}
+	&:active,
+	&:focus {
+		color: white;
+		text-decoration: none;
+		text-shadow: none;
+	}
+}
+
+
+// the little calendar icon
+
+.ui-rangepicker-icon {
+	// color: @gray-light;
+	cursor: pointer;
+	display: inline-block;
+	padding: 0 8px;
+	pointer-events: none;
+	position: relative;
+	top: 1px;
+}

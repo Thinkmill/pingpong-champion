@@ -1,0 +1,17 @@
+//- Address field with label
+//- 
+//- Used inside '.form-horizontal' to display a label left of the field
+//- 
+//- Accepted arguments:
+//- * label
+//- * field args (name, value)
+
+include address-field
+
+mixin labelled-address-field(args)
+	.form-group.form-row
+		label(for=attributes.id ? attributes.id : null).form-col.form-col--one-quarter= args.label
+		.form-col.form-col--three-quarters
+			+address-field(args)
+			if args.note
+				.form-info= args.note

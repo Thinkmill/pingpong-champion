@@ -1,0 +1,141 @@
+//
+// Sidebar
+// ==============================
+
+
+
+
+// Setup
+// ------------------------------
+
+
+// base
+
+.app-sidebar {
+	background-color: @sidebar-bg;
+	box-shadow: 1px 0 0 rgba(0, 0, 0, 0.1);
+	padding: (@headerbar-height + @grid-gutter) @grid-gutter 0;
+}
+.app-sidebar-inner {
+	padding-bottom: @headerbar-height + @grid-gutter;
+}
+
+
+// header
+
+.sidebar-header {
+	.headerbar();
+	.text-overflow();
+	background-color: fade(@sidebar-bg, 90%);
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+	position: fixed;
+	top: 0;
+	width: @sidebar-width - (@grid-gutter * 2);
+	z-index: 10;
+
+	> .headerbar-label {
+		font-weight: normal;
+	}
+}
+
+
+// divider
+
+.sidebar-divider {
+	.size(100%,1px);
+	background-color: rgba(0, 0, 0, 0.15);
+	margin-bottom: @grid-gutter;
+	margin-top: @grid-gutter;
+}
+
+
+// footer
+
+.sidebar-footer {
+	.headerbar();
+	.text-overflow();
+	background-color: fade(@sidebar-bg, 90%);
+	bottom: 0;
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
+	padding-bottom: @grid-gutter / 2;
+	padding-top: @grid-gutter / 2;
+	position: fixed;
+	width: @sidebar-width - (@grid-gutter * 2);
+	z-index: 10;
+}
+.sidebar-footer-button {
+	.btn();
+	.btn-default();
+	border-radius: @border-radius;
+	height: @headerbar-height - @grid-gutter;
+	line-height: 0;
+	padding: 0;
+	top: 0;
+	width: 100%;
+
+	&:hover {
+		.btn-primary();
+	}
+}
+
+
+// sections
+
+.sidebar-section {
+	margin-bottom: @grid-gutter;
+}
+
+// dropdowns
+.sidebar-section > .dropdown > .dropdown-menu {
+	width: 100%;
+}
+
+
+
+// Navigation
+// ------------------------------
+
+
+.sidebar-nav {
+}
+
+.sidebar-nav-item {
+	border-radius: @border-radius;
+	color: @gray;
+	display: block;
+	margin-bottom: 1px;
+	padding: 5px 10px;
+
+	&:hover,
+	&:focus {
+		background-color: mix(@sidebar-bg, white, 50%);
+		color: @text-color;
+		text-decoration: none;
+	}
+
+	// active nav item
+	&.active {
+		background-color: darken(@sidebar-bg, 6%);
+		color: @text-color;
+		font-weight: bold;
+		position: relative;
+	}
+}
+
+
+// elements
+
+.sidebar-nav-divider {
+	// #gradient .horizontal-three-colors(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), 50%, rgba(0, 0, 0, 0));
+	background-color: rgba(0, 0, 0, 0.1);
+	height: 1px;
+	margin-bottom: 1em;
+	margin-top: 1em;
+}
+li.sidebar-nav-heading {
+	color: @app-primary;
+	font-weight: 600;
+	margin-bottom: .5em;
+	margin-top: 1em;
+	text-transform: uppercase;
+}

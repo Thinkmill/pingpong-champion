@@ -1,0 +1,13 @@
+nav.app-nav
+	//- .app-nav-brand PingPong Champion
+	a(href='/' class=section === 'scoreboard' ? 'active' : null title="Scoreboard" rel="tooltip" data-placement="right" data-delay='{ "show": 500, "hide": 100 }').navbar-item
+		span.navbar-item-icon.ion-trophy
+	//- a(href='/reports' class=section === 'reports' ? 'active' : null title="Reports" rel="tooltip" data-placement="right" data-delay='{ "show": 500, "hide": 100 }').navbar-item
+		span.navbar-item-icon.ion-stats-bars
+		//- span.navbar-item-icon.ion-arrow-graph-up-right
+	a(href='/players' class=section === 'players' ? 'active' : null title="Players" rel="tooltip" data-placement="right" data-delay='{ "show": 500, "hide": 100 }').navbar-item
+		span.navbar-item-icon.ion-ios7-people
+	//- a(href='/settings' class=section === 'settings' ? 'active' : null title="Settings" rel="tooltip" data-placement="right" data-delay='{ "show": 500, "hide": 100 }').navbar-item
+	//- 	span.navbar-item-icon.ion-gear-a
+	//- a(href='/keystone/signout' title="Signout" rel="tooltip" data-placement="right" data-delay='{ "show": 500, "hide": 100 }').navbar-item.is-stuck-to-bottom
+	//- 	span.navbar-item-icon.ion-log-out

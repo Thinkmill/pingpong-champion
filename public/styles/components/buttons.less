@@ -1,0 +1,332 @@
+// 
+// Buttons
+// ==============================
+
+
+
+
+// Base
+// ------------------------------
+
+.btn {
+	border-radius: 3px;
+	border-style: solid;
+	border-width: 1px;
+	display: inline-block;
+	// font-size: 0.9em;
+	// font-weight: 500;
+	padding: @padding-base-vertical @padding-base-horizontal;
+	position: relative;
+	outline: none;
+	text-align: center;
+	text-decoration: none;
+	-webkit-appearance: none;
+
+	a&:hover,
+	a&:focus {
+		color: inherit;
+		text-decoration: none;
+	}
+}
+
+.btn-companion {
+	display: inline-block;
+	padding: @padding-base-vertical @padding-base-horizontal;
+}
+
+
+// Link buttons
+// ------------------------------
+
+.btn-link {
+	border-radius: 0;
+	color: @link-color;
+	cursor: pointer;
+	font-weight: normal;
+
+	&,
+	&:active,
+	&[disabled],
+	fieldset[disabled] & {
+		background-color: transparent;
+	}
+	&,
+	&:hover,
+	&:focus,
+	&:active {
+	  border-color: transparent;
+	}
+	&:hover,
+	&:focus {
+		color: @link-hover-color;
+		text-decoration: underline;
+		background-color: transparent;
+	}
+}
+
+
+
+// Variants
+// ------------------------------
+
+
+// default button
+
+.btn-default {
+	#gradient .vertical(#fefefe, #f6f6f6, 40%);
+	border-color: #ddd #ccc #bbb;
+	color: inherit;
+
+	&:hover,
+	&:focus {
+		#gradient .vertical(#fff, #f9f9f9);
+		border-color: #ccc #bbb #aaa;
+		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+	}
+	.open > &,
+	&:focus {
+		border-color: @link-hover-color @link-color @link-color;
+		box-shadow: 0 0 3px fade(@link-hover-color, 50%);
+	}
+
+	&:active,
+	&.active {
+		background: #eee;
+		border-color: #bbb #ccc #ddd;
+		box-shadow: inset 0 1px 2px rgba(0,0,0,.125);
+	}
+
+	&.disabled,
+	&[disabled],
+	fieldset[disabled] & {
+		.box-shadow(none);
+		opacity: .65;
+		pointer-events: none;
+	}
+}
+
+
+// colour variants
+
+// .btn-default {
+// 	.button-variant(#333, #e6e6e6, #ccc);
+// }
+.btn-primary {
+	.button-variant(white, @app-primary, darken(@app-primary, 5%));
+}
+.btn-secondary {
+	.button-variant(white, @app-secondary, darken(@app-secondary, 5%));
+}
+.btn-info {
+	.button-variant(white, @app-info, darken(@app-info, 5%));
+}
+.btn-warning {
+	.button-variant(white, @app-warning, darken(@app-warning, 5%));
+}
+.btn-create {
+	.button-variant(white, @app-create, darken(@app-create, 5%));
+}
+
+
+// size variants
+
+.btn-skinny {
+	line-height: .9;
+}
+.btn-sm {
+	font-size: .8em;
+	padding: @padding-small-vertical @padding-small-horizontal;
+}
+.btn-lg {
+	font-size: 1.2em;
+	padding-bottom: 1em;
+	padding-top: 1em;
+	padding-left: 1.5em;
+	padding-right: 1.5em;
+}
+.btn-block {
+	display: block;
+	padding-left: 0;
+	padding-right: 0;
+	width: 100%;
+}
+// like block but not centered
+.btn-flex {
+	.display-flex();
+	text-align: left;
+	width: 100%;
+
+	.caret {
+		margin: -4px 0 0;
+	}
+
+}
+.btn-flex-label {
+	.flex(1,0,0);
+}
+
+
+
+
+// Loading Buttons
+// ------------------------------
+
+// loading indicator is shown when the class "is-processing" is applied the
+// parent ".modal-form" form. see form.less for more about processing
+
+// setup transistions
+.loading-button-icon,
+.loading-button-text {
+	.transition( opacity 400ms );
+}
+
+// center the loading icon
+.loading-button-icon-wrapper {
+	.display-flex();
+	.align-items(center);
+	margin-left: -(@font-size-huge / 2);
+	left: 50%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+}
+
+// create and hide the loading icon
+.loading-button-icon {
+	.loader(@font-size-huge, 500ms, @app-primary);
+	.transition-delay( 200ms );
+	opacity: 0;
+}
+
+
+
+
+// Date Select
+// ------------------------------
+
+.date-select {
+	position: relative;
+}
+
+// date button
+
+.date-select-button {
+	.btn-block();
+	.transition( border-color 200ms );
+	background-color: white;
+	border: 2px solid #ccc;
+	color: @text-color;
+
+	&:hover {
+		border-color: @link-color;
+
+		.date-select-icon {
+			color: @text-color;
+		}
+	}
+}
+.date-select-icon {
+	.transition( color 200ms );
+	color: @gray;
+}
+.date-select-menu {
+	width: 100%;
+}
+
+
+
+
+// Player Select
+// ------------------------------
+
+.player-select {
+	margin-bottom: 8px;
+}
+
+.player-select-button {
+	background-color: @gray-lighter;
+	border-radius: @border-radius;
+	border: 0 none;
+	color: @gray;
+	cursor: pointer;
+	display: block;
+	font-size: @font-size-tiny;
+	line-height: 1;
+	padding: 6px;
+	text-align: center;
+
+	&:hover {
+		background-color: darken(@gray-lighter, 3%);
+		color: @gray-dark;
+	}
+	&.active,
+	&:active,
+	&:focus {
+		background-color: @gray-light;
+		color: white;
+	}
+}
+
+.player-1-group .player-select-button {
+	&.active,
+	&:active,
+	&:focus {
+		background-color: @app-primary;
+	}
+}
+.player-2-group .player-select-button {
+	&.active,
+	&:active,
+	&:focus {
+		background-color: @app-secondary;
+	}
+}
+.player-vs-divider {
+	line-height: 1;
+	position: relative;
+
+	&:after {
+		background-color: rgba(0, 0, 0, 0.1);
+		content: "";
+		height: 100%;
+		position: absolute;
+		top: 0;
+		width: 1px;
+	}
+}
+.player-vs-label {
+	.size(60px,48px);
+	background-color: white;
+	color: @gray-light;
+	font-family: baskerville;
+	font-size: 48px;
+	font-style: italic;
+	left: 50%;
+	margin: -24px 0 0 -30px;
+
+	left: 50%;
+	top: 50%;
+	position: absolute;
+	z-index: 2;
+}
+.player-select-group {
+	padding-bottom: @panel-padding-vertical;
+	padding-top: @panel-padding-vertical;
+}
+
+.player-score {
+	border: none;
+	font-size: 48px;
+	font-weight: 500;
+	text-align: center;
+	width: auto;
+	max-width: 100%;
+
+	&:focus {
+		outline: none;
+	}
+}
+
+
+
+

@@ -1,0 +1,254 @@
+extends /templates/layouts/default
+
+block css
+	link(rel='stylesheet' href='/js/lib/nouislider/jquery.nouislider.min.css')
+	link(rel='stylesheet' href='/js/lib/nouislider/jquery.nouislider.pips.min.css')
+
+block header
+	.content-header: .app-container: .content-header-inner
+		.headerbar-label Scoreboard
+		//- button(type='button', data-toggle='modal', data-target='#modal-score').headerbar-button.right
+			span.ion-plus.mr-5
+			| Add Score
+
+block sidebar
+	//- .sidebar-section
+		//- .mini-heading
+			//- span.ion-arrow-swap.mr-1
+			| Navigation
+		.sidebar-nav
+			a(href='javascript:;').sidebar-nav-item.active This week
+			a(href='javascript:;').sidebar-nav-item This month
+			a(href='javascript:;').sidebar-nav-item This quarter
+			a(href='javascript:;').sidebar-nav-item All Time
+	//- .sidebar-divider
+	.sidebar-section
+		button(type='button', data-toggle='modal', data-target='#modal-score').btn.btn-primary.btn-block
+			span.ion-plus.mr-5
+			| Add Score
+	//- .sidebar-section
+		.mini-heading Games this Week
+		.panel
+			.alternator.positive
+				.alternator-number
+					.alternator-number-value 12
+					.alternator-number-label Games this Week
+				.alternator-percentage
+					span.alternator-percentage-icon
+					span.alternator-percentage-value 6%
+
+block content
+	//- PODIUM
+	.podium
+		.podium-rank.podium-rank-second
+			.podium-photo
+				img(src='/images/temp/tuan.jpg').podium-photo-src
+			.podium-text
+				.podium-title 2nd
+				.podium-subtitle Tuan H.
+		.podium-rank.podium-rank-first
+			.podium-photo
+				img(src='/images/temp/john.jpg').podium-photo-src
+			.podium-text
+				.podium-title 1st
+				.podium-subtitle John M.
+		.podium-rank.podium-rank-third
+			.podium-photo
+				img(src='/images/temp/joss.jpg').podium-photo-src
+			.podium-text
+				.podium-title 3rd
+				.podium-subtitle Joss M.
+
+	//- TABLE
+	if !players
+		.no-results
+			span.no-results-icon.ion-ios7-people
+			.no-results-heading No players found.
+			if searchterm
+				.no-results-message You can 
+					a(href=qs_set({ searchterm: undefined })) clear the search
+					|  to see results.
+			else
+				.no-results-message You can 
+					a(href=qs_set({ ageAfter: undefined, ageBefore: undefined, gender: undefined, visits: undefined, spend: undefined, carCount: undefined, lastVisitDate: undefined, joinedDate: undefined })) reset the filters
+					|  to see results.
+	else
+		table.table
+			col
+			col(width=100)
+			col(width=100)
+			col(width=100)
+			col(width=100)
+			col(width=100)
+			thead
+				tr
+					+sortable-th('name.first', 'Player')
+					+sortable-th('gender', 'Gender')
+					+sortable-th('age', 'Age')
+					+sortable-th('games', 'Games')
+					+sortable-th('wins', 'Wins')
+					+sortable-th('losses', 'Losses')
+			each player, i in players
+				tr
+					td
+						a(href='javascript:;' data-player=player).player-item
+							.ui-table-avatar.ion-person
+							= player.name.full
+					td= player.genderLabel
+					td= player.age ? player.age : '--'
+					td= player.totalGames
+					td= player.totalWins
+					td= player.totalLosses
+
+block modal
+	//- Modal: Add Score
+	#modal-score(tabindex="-1", role="dialog", aria-labelledby="modalScore", aria-hidden="true").modal
+		.modal-dialog
+			.modal-content
+				form(method='post' novalidate autocomplete='off').modal-form
+					input(type='hidden', name='action', value='player.update')
+					.modal-header.text-center
+						button(type="button" data-dismiss="modal" aria-hidden="true").headerbar-button.cancel-button Cancel
+						.modal-title#modal-player-details-title Add Score
+						button(type="submit" data-submit-label="Save").headerbar-button.right.is-primary
+					.g-row
+						.g-col.g-two-fifths
+							.player-select-group: .player-1-group.g-row.g-row-sm-gutter
+								each player, i in players
+									.g-col.g-one-third: .player-select: label(class=i==5?'active':null).player-select-button
+										input(type='radio' name='player1' value=player.id).visually-hidden
+										= player.name.first
+							.text-center.mt-2
+								.mini-heading Player 1 Score
+								input(type='number' value=0).player-score#player-1-score
+							#player-1-score-slider.js-slider
+						.g-col.g-one-fifth.text-center.player-vs-divider
+							.player-vs-label VS
+						.g-col.g-two-fifths
+							.player-select-group: .player-2-group.g-row.g-row-sm-gutter
+								each player, i in players
+									.g-col.g-one-third: .player-select: label(class=i==6?'active':null).player-select-button
+										input(type='radio' name='player2' value=player.id).visually-hidden
+										= player.name.first
+							.text-center.mt-2
+								.mini-heading Player 2 Score
+								input(type='number' value=0).player-score#player-2-score
+							#player-2-score-slider.js-slider
+
+
+
+	//- Modal: Player Details
+	#modal-player(tabindex="-1", role="dialog", aria-labelledby="modalPlayer", aria-hidden="true").modal
+		.modal-dialog
+			.modal-content
+				form(method='post' novalidate autocomplete='off').modal-form
+					input(type='hidden', name='action', value='player.update')
+					.modal-header
+						.modal-title#modal-player-details-title Player Details
+						button(type="button" data-dismiss="modal" aria-hidden="true").headerbar-button.right.is-primary Done
+
+					.modal-body
+						.player-dials
+							.player-dial-wrapper
+								.player-dial.player-dial-rank: .player-dial-inner
+									.player-dials-subtitle Rank
+									.player-dials-title 4th
+							.player-dial-wrapper
+								.player-dial.player-dial-score(title='Win/Loss ration (higher is better)'): .player-dial-inner
+									span.player-dials-icon.ion-ribbon-a
+									.player-dials-subtitle Score
+									.player-dials-title 48%
+							.player-dial-wrapper
+								.player-dial.player-dial-points: .player-dial-inner
+									.player-dials-subtitle Points
+									.player-dials-title 105
+						+labelled-chromeless-readonly-field({ label: 'Games',          name: 'totalGames',           value: 24 }).is-first
+						+labelled-chromeless-readonly-field({ label: 'Wins',           name: 'totalWins',            value: 13 })
+						+labelled-chromeless-readonly-field({ label: 'Loses',          name: 'totalLoses',           value: 11 })
+						+labelled-chromeless-readonly-field({ label: 'Winning Streak', name: 'longestWinningStreak', value: 4 })
+						+labelled-chromeless-readonly-field({ label: 'Losing Streak',  name: 'longestLosingStreak',  value: 3 })
+						+labelled-chromeless-readonly-field({ label: 'Most Played',    name: 'mostPlayedOpponent',   value: 'Tuan' })
+						+labelled-chromeless-readonly-field({ label: 'Least Played',   name: 'leastPlayedOpponent',  value: 'David' })
+					.modal-header
+						.modal-title Achievements
+					.modal-body
+						for streak in [5,10,20]
+							.form-item: .form-control
+								span.text-create.ion-checkmark.mr-1
+								| Winning streak of #{streak}
+						.form-item: .form-control
+							span.text-create.ion-checkmark.mr-1
+							| Played on their birthday
+						.form-item: .form-control
+							span.text-create.ion-checkmark.mr-1
+							| Played for 5 days straight
+						.form-item: .form-control
+							span.text-create.ion-checkmark.mr-1
+							| Played 10 games in one day
+						.form-item: .form-control
+							span.text-create.ion-checkmark.mr-1
+							| Finished a game in under 5 minutes
+					.modal-header
+						.modal-title Last 20 Games
+					.modal-body
+						table.table
+							col
+							col(width=100)
+							col(width=100)
+							thead
+								tr
+									th Opponent
+									th Outcome
+									th Score
+							each player, i in players
+								tr.ui-table-row
+									td= player.name.full
+									td= i%3==1 ? 'Lost' : 'Won'
+									td #{Math.floor(Math.random() * 11) + 1} / 11
+
+block js
+	script(src='/js/lib/nouislider/jquery.nouislider.all.min.js')
+	script.
+		jQuery(function($) {
+			// JS Slider
+			$('.js-slider').noUiSlider({
+				start: 0,
+				step: 1,
+				range: {
+					'min': 0,
+					'max': 15
+				},
+				format: wNumb({
+					decimals: 0
+				})
+			});
+			$('.js-slider').noUiSlider_pips({
+				mode: 'count',
+				values: 4,
+				density: 7,
+				stepped: true
+			});
+			$('#player-1-score-slider').Link('lower').to($('#player-1-score'));
+			$('#player-2-score-slider').Link('lower').to($('#player-2-score'));
+			
+			// Populate the Player Modal
+			$('.player-item').each(function() {
+				
+				var $player = $(this),
+					$playerData = $player.data('player'),
+					$playerModal = $('#modal-player');
+
+				$player.click(function() {
+					$playerModal.modal();
+					
+					//- populate content
+					$playerModal.find('#modal-player-details-title').text([$playerData.name.first,$playerData.name.last].join(' '));
+					
+					$playerModal.find('.input-name').text([$playerData.name.first, $playerData.name.last].join(' '));
+					$playerModal.find('.input-email').text($playerData.email);
+					$playerModal.find('.input-gender').text($playerData.gender);
+					$playerModal.find('.input-dob').text($playerData.dob);
+				});
+
+			});
+		});
