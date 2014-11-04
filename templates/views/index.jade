@@ -7,7 +7,7 @@ block css
 block header
 	.content-header: .app-container: .content-header-inner
 		.headerbar-label Scoreboard
-		//- button(type='button', data-toggle='modal', data-target='#modal-score').headerbar-button.right
+		button(type='button', data-toggle='modal', data-target='#modal-score').headerbar-button.right.visible-sm-block
 			span.ion-plus.mr-5
 			| Add Score
 
@@ -134,6 +134,7 @@ block modal
 								.mini-heading Player 2 Score
 								input(type='number' value=0).player-score#player-2-score
 							#player-2-score-slider.js-slider
+					textarea(name='notes' placeholder='Notes (optional)' rows=3).field
 
 
 
