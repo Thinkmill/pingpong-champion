@@ -35,14 +35,14 @@ User.add({
 	age: { type: Number, noedit: true },
 	handicap: { type: Number, noedit: true }, // based on score
 }, 'Stats', {
-	points: { type: Number, default: 0 }, // +10 for a win + point difference at the end of the game
+	points: { type: Number, default: 0 }, // +8 for a win + point difference at the end of the game
 	score: { type: Number, default: 0 }, // win/loss percentage 
 	rank: { type: Number, default: 0 }, // 1 to {number of players}
-	totalGames: { type: Number, default: 0 },
-	totalWins: { type: Number, default: 0 },
-	totalLosses: { type: Number, default: 0 },
-	totalPointsWon: { type: Number, default: 0 },
-	totalPointsLost: { type: Number, default: 0 },
+	totalGames: { type: Number, default: 0, label: 'Games played' },
+	totalWins: { type: Number, default: 0, label: 'Wins' },
+	totalLosses: { type: Number, default: 0, label: 'Losses' },
+	totalPointsWon: { type: Number, default: 0, label: 'Points won' },
+	totalPointsLost: { type: Number, default: 0, label: 'Points lost' },
 	totalTimePlayed: { type: Number, default: 0 }, // stored in seconds
 	longestWinningStreak: { type: Number, default: 0 },
 	longestLosingStreak: { type: Number, default: 0 },
@@ -79,5 +79,5 @@ User.schema.pre('save', function(next) {
  * Registration
  */
 
-User.defaultColumns = 'name, email, isAdmin, state';
+User.defaultColumns = 'name, points, totalGames, totalWins, totalLosses, totalPointsWon, totalPointsLost';
 User.register();
