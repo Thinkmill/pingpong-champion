@@ -86,6 +86,7 @@
 	.headerbar();
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 	padding-right: @modal-inner-padding @modal-inner-padding @modal-inner-padding 0;
+	position: relative;
 	// text-align: center;
 	
 	// buttons
@@ -121,6 +122,14 @@
 .modal-body {
 	position: relative;
 	padding: @modal-inner-padding 0;
+}
+
+// full height
+.modal-form {
+	height: 100%;
+}
+.modal-body-stretch {
+	height: ~"calc(100% - @{headerbar-height})";
 }
 
 // Footer (for actions)
