@@ -11,6 +11,32 @@ exports = module.exports = function(req, res) {
 	locals.current.sortOrder = req.query.sort || 'rank';
 	
 	
+	// LOAD the Scoreboard Players
+	
+	view.on('init', function(next) {
+		User.model.find()
+			.where('state', 'active')
+			.sort(locals.current.sortOrder)
+			.exec(function(err, players) {
+				locals.scoreboardPlayers = players;
+				next();
+			});
+	});
+	
+	
+	// LOAD the Scoreboard Players
+	
+	view.on('init', function(next) {
+		User.model.find()
+			.where('state', 'active')
+			.sort('name.first')
+			.exec(function(err, players) {
+				locals.selectablePlayers = players;
+				next();
+			});
+	});
+	
+	
 	// CREATE a Game
 	
 	view.on('post', { action: 'game.create' }, function(next) {
@@ -39,19 +65,6 @@ exports = module.exports = function(req, res) {
 		
 		});
 	
-	});
-	
-	
-	// LOAD the Players after post so we get the latest data
-	
-	view.on('render', function(next) {
-		User.model.find()
-			.where('state', 'active')
-			.sort(locals.current.sortOrder)
-			.exec(function(err, players) {
-				locals.players = players;
-				next();
-			});
 	});
 
 	view.render('index');

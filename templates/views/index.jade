@@ -44,7 +44,7 @@ block content
 	+flash-messages(messages)
 	//- PODIUM
 	.podium
-		each rankedPlayer, i in players
+		each rankedPlayer, i in scoreboardPlayers
 			if i < 3
 				.podium-rank(class='podium-rank-#{i+1}')
 					//- .podium-photo
@@ -61,7 +61,7 @@ block content
 						.podium-subtitle= rankedPlayer.name.first
 
 	//- TABLE
-	if !players
+	if !scoreboardPlayers
 		.no-results
 			span.no-results-icon.ion-ios7-people
 			.no-results-heading No players found.
@@ -75,31 +75,31 @@ block content
 					|  to see results.
 	else
 		table.table
-			col(width=40)
+			col(width=20)
 			col
-			col(width=100)
-			col(width=100)
-			col(width=100)
-			col(width=100)
+			col(width=80)
+			col(width=100).hidden-xs
+			col(width=100).hidden-xs
+			col(width=100).hidden-xs
 			thead
 				tr
-					th &nbsp;
-					+sortable-th('rank', 'Player')
+					//- th &nbsp;
+					+sortable-th('rank', 'Player', 'Player', 2)
 					+sortable-th('points', 'Points')
-					+sortable-th('totalGames', 'Games')
-					+sortable-th('totalWins', 'Wins')
-					+sortable-th('totalLosses', 'Losses')
-			each player, i in players
+					+sortable-th('totalGames', 'Games').hidden-xs
+					+sortable-th('totalWins', 'Wins').hidden-xs
+					+sortable-th('totalLosses', 'Losses').hidden-xs
+			each player, i in scoreboardPlayers
 				tr
-					td.text-center: strong= player.rank
+					td: strong= player.rank
 					td
 						a(href='javascript:;' data-player=player).player-item
 							.ui-table-avatar.ion-person
 							= player.name.full
 					td= player.points
-					td= player.totalGames
-					td= player.totalWins
-					td= player.totalLosses
+					td.hidden-xs= player.totalGames
+					td.hidden-xs= player.totalWins
+					td.hidden-xs= player.totalLosses
 
 block modal
 	//- Modal: Add Game
@@ -119,7 +119,7 @@ block modal
 					.g-row.modal-body-stretch
 						.g-col.player-select-column
 							.player-select-group.modal-body: .player-1-group.g-row.g-row-sm-gutter
-								each player, i in players
+								each player, i in selectablePlayers
 									.g-col.g-one-third: .player-select: label.game-score-button
 										input(type='radio' name='player1' value=player.id).visually-hidden
 										= player.name.first
@@ -133,7 +133,7 @@ block modal
 							.player-vs-label VS
 						.g-col.player-select-column
 							.player-select-group.modal-body: .player-2-group.g-row.g-row-sm-gutter
-								each player, i in players
+								each player, i in selectablePlayers
 									.g-col.g-one-third: .player-select: label.game-score-button
 										input(type='radio' name='player2' value=player.id).visually-hidden
 										= player.name.first
@@ -209,7 +209,7 @@ block modal
 								th Opponent
 								th Outcome
 								th Score
-						each player, i in players
+						each player, i in scoreboardPlayers
 							tr.ui-table-row
 								td= player.name.full
 								td= i%3==1 ? 'Lost' : 'Won'
@@ -219,7 +219,7 @@ block js
 	script(src='/js/lib/nouislider/jquery.nouislider.all.min.js')
 	script.
 		jQuery(function($) {
-			// Player Select
+			// Player Select 
 			// ------------------------------
 
 			var player1Controls = $('[name=player1]');
