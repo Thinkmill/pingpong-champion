@@ -101,18 +101,18 @@ body {
 
 .content-header {
 	.headerbar();
-	background-color: fade(@app-primary, 93%);
+	background-color: fade(@body-bg, 93%);
 	position: fixed;
 	top: 0;
 	width: 100%;
 	z-index: @content-header-stack-order;
 
 	.headerbar-label {
-		color: white;
+		color: @headerbar-color;
 	}
 }
 .content-header-inner {
-	// box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 	position: relative;
 }
 
