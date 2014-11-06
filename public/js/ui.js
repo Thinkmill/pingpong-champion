@@ -56,7 +56,7 @@ jQuery(function($) {
 		var self = $(this);
 		
 		self.on('shown.bs.modal', function (e) {
-			self.find('input[type!=hidden],textarea').eq(0).click().focus();
+			self.find('input[type!=hidden]:not([type=radio]),textarea').eq(0).click().focus();
 		});
 	});
 
