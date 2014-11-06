@@ -6,12 +6,15 @@ block css
 
 block header
 	.content-header: .app-container: .content-header-inner
-		.headerbar-label Scoreboard
-		button(type='button', data-toggle='modal', data-target='#modal-score').headerbar-button.right.visible-sm-block
+		button(type='button', data-toggle='modal', data-target='#modal-score').btn.btn-secondary.pull-right.mt-1
 			span.ion-plus.mr-5
-			| Add Score
+			| Add Game
+		.headerbar-label PingPong Champion
+		//- button(type='button', data-toggle='modal', data-target='#modal-score').headerbar-button.right.visible-sm-block
+			span.ion-plus.mr-5
+			| Add Game
 
-block sidebar
+//- block sidebar
 	//- .sidebar-section
 		//- .mini-heading
 			//- span.ion-arrow-swap.mr-1
@@ -25,7 +28,7 @@ block sidebar
 	.sidebar-section
 		button(type='button', data-toggle='modal', data-target='#modal-score').btn.btn-primary.btn-block
 			span.ion-plus.mr-5
-			| Add Score
+			| Add Game
 	//- .sidebar-section
 		.mini-heading Games this Week
 		.panel
@@ -38,26 +41,24 @@ block sidebar
 					span.alternator-percentage-value 6%
 
 block content
+	+flash-messages(messages)
 	//- PODIUM
 	.podium
-		.podium-rank.podium-rank-second
-			.podium-photo
-				img(src='/images/temp/tuan.jpg').podium-photo-src
-			.podium-text
-				.podium-title 2nd
-				.podium-subtitle Tuan H.
-		.podium-rank.podium-rank-first
-			.podium-photo
-				img(src='/images/temp/john.jpg').podium-photo-src
-			.podium-text
-				.podium-title 1st
-				.podium-subtitle John M.
-		.podium-rank.podium-rank-third
-			.podium-photo
-				img(src='/images/temp/joss.jpg').podium-photo-src
-			.podium-text
-				.podium-title 3rd
-				.podium-subtitle Joss M.
+		each rankedPlayer, i in players
+			if i < 3
+				.podium-rank(class='podium-rank-#{i+1}')
+					//- .podium-photo
+						img(src='/images/temp/tuan.jpg').podium-photo-src
+					span.podium-trophy.ion-trophy
+					.podium-text
+						.podium-title
+							if i === 0
+								| 1st
+							if i === 1
+								| 2nd
+							if i === 2
+								| 3rd
+						.podium-subtitle= rankedPlayer.name.first
 
 	//- TABLE
 	if !players
@@ -74,66 +75,74 @@ block content
 					|  to see results.
 	else
 		table.table
+			col(width=40)
 			col
-			col(width=100)
 			col(width=100)
 			col(width=100)
 			col(width=100)
 			col(width=100)
 			thead
 				tr
-					+sortable-th('name.first', 'Player')
-					+sortable-th('gender', 'Gender')
-					+sortable-th('age', 'Age')
-					+sortable-th('games', 'Games')
-					+sortable-th('wins', 'Wins')
-					+sortable-th('losses', 'Losses')
+					th &nbsp;
+					+sortable-th('rank', 'Player')
+					+sortable-th('points', 'Points')
+					+sortable-th('totalGames', 'Games')
+					+sortable-th('totalWins', 'Wins')
+					+sortable-th('totalLosses', 'Losses')
 			each player, i in players
 				tr
+					td.text-center: strong= player.rank
 					td
 						a(href='javascript:;' data-player=player).player-item
 							.ui-table-avatar.ion-person
 							= player.name.full
-					td= player.genderLabel
-					td= player.age ? player.age : '--'
+					td= player.points
 					td= player.totalGames
 					td= player.totalWins
 					td= player.totalLosses
 
 block modal
-	//- Modal: Add Score
+	//- Modal: Add Game
 	#modal-score(tabindex="-1", role="dialog", aria-labelledby="modalScore", aria-hidden="true").modal
-		.modal-dialog
+		.modal-dialog.modal-lg
 			.modal-content
 				form(method='post' novalidate autocomplete='off').modal-form
-					input(type='hidden', name='action', value='player.update')
+					input(type='hidden', name='action', value='game.create')
+					input(type='hidden', name='winningPlayer')
+					input(type='hidden', name='losingPlayer')
+					input(type='hidden', name='winningScore')
+					input(type='hidden', name='losingScore')
 					.modal-header.text-center
 						button(type="button" data-dismiss="modal" aria-hidden="true").headerbar-button.cancel-button Cancel
-						.modal-title#modal-player-details-title Add Score
-						button(type="submit" data-submit-label="Save").headerbar-button.right.is-primary
-					.g-row
-						.g-col.g-two-fifths
-							.player-select-group: .player-1-group.g-row.g-row-sm-gutter
+						.modal-title#modal-player-details-title Add Game
+						button(type="submit" data-submit-label="Save" disabled)#game-submit.headerbar-button.right.is-primary
+					.g-row.modal-body-stretch
+						.g-col.player-select-column
+							.player-select-group.modal-body: .player-1-group.g-row.g-row-sm-gutter
 								each player, i in players
-									.g-col.g-one-third: .player-select: label(class=i==5?'active':null).player-select-button
+									.g-col.g-one-third: .player-select: label.game-score-button
 										input(type='radio' name='player1' value=player.id).visually-hidden
 										= player.name.first
 							.text-center.mt-2
 								.mini-heading Player 1 Score
-								input(type='number' value=0).player-score#player-1-score
-							#player-1-score-slider.js-slider
-						.g-col.g-one-fifth.text-center.player-vs-divider
+								input(type='number' name='player1Score' value=0).player-score#player-1-score
+							.game-score-slider
+								#player-1-score-slider.js-slider
+							button(type='button')#set-p1-to-11.game-score-button Set to 11
+						.g-col.text-center.player-vs-column
 							.player-vs-label VS
-						.g-col.g-two-fifths
-							.player-select-group: .player-2-group.g-row.g-row-sm-gutter
+						.g-col.player-select-column
+							.player-select-group.modal-body: .player-2-group.g-row.g-row-sm-gutter
 								each player, i in players
-									.g-col.g-one-third: .player-select: label(class=i==6?'active':null).player-select-button
+									.g-col.g-one-third: .player-select: label.game-score-button
 										input(type='radio' name='player2' value=player.id).visually-hidden
 										= player.name.first
 							.text-center.mt-2
 								.mini-heading Player 2 Score
-								input(type='number' value=0).player-score#player-2-score
-							#player-2-score-slider.js-slider
+								input(type='number' name='player2Score' value=0).player-score#player-2-score
+							.game-score-slider
+								#player-2-score-slider.js-slider
+							button(type='button')#set-p2-to-11.game-score-button Set to 11
 					//- Not ready for this
 					//- textarea(name='notes' placeholder='Notes (optional)' rows=3).field
 
@@ -143,82 +152,189 @@ block modal
 	#modal-player(tabindex="-1", role="dialog", aria-labelledby="modalPlayer", aria-hidden="true").modal
 		.modal-dialog
 			.modal-content
-				form(method='post' novalidate autocomplete='off').modal-form
-					input(type='hidden', name='action', value='player.update')
-					.modal-header
-						.modal-title#modal-player-details-title Player Details
-						button(type="button" data-dismiss="modal" aria-hidden="true").headerbar-button.right.is-primary Done
+				.modal-header
+					.modal-title#modal-player-details-title Player Details
+					button(type="button" data-dismiss="modal" aria-hidden="true").headerbar-button.right Done
 
-					.modal-body
-						.player-dials
-							.player-dial-wrapper
-								.player-dial.player-dial-rank: .player-dial-inner
-									.player-dials-subtitle Rank
-									.player-dials-title 4th
-							.player-dial-wrapper
-								.player-dial.player-dial-score(title='Win/Loss ration (higher is better)'): .player-dial-inner
-									span.player-dials-icon.ion-ribbon-a
-									.player-dials-subtitle Score
-									.player-dials-title 48%
-							.player-dial-wrapper
-								.player-dial.player-dial-points: .player-dial-inner
-									.player-dials-subtitle Points
-									.player-dials-title 105
-						+labelled-chromeless-readonly-field({ label: 'Games',          name: 'totalGames',           value: 24 }).is-first
-						+labelled-chromeless-readonly-field({ label: 'Wins',           name: 'totalWins',            value: 13 })
-						+labelled-chromeless-readonly-field({ label: 'Loses',          name: 'totalLoses',           value: 11 })
-						+labelled-chromeless-readonly-field({ label: 'Winning Streak', name: 'longestWinningStreak', value: 4 })
-						+labelled-chromeless-readonly-field({ label: 'Losing Streak',  name: 'longestLosingStreak',  value: 3 })
-						+labelled-chromeless-readonly-field({ label: 'Most Played',    name: 'mostPlayedOpponent',   value: 'Tuan' })
-						+labelled-chromeless-readonly-field({ label: 'Least Played',   name: 'leastPlayedOpponent',  value: 'David' })
-					.modal-header
-						.modal-title Achievements
-					.modal-body
-						for streak in [5,10,20]
-							.form-item: .form-control
-								span.text-create.ion-checkmark.mr-1
-								| Winning streak of #{streak}
+				.modal-body
+					.player-dials
+						.player-dial-wrapper
+							.player-dial.player-dial-rank: .player-dial-inner
+								.player-dials-subtitle Rank
+								.player-dials-title 4th
+						.player-dial-wrapper
+							.player-dial.player-dial-score(title='Win/Loss ration (higher is better)'): .player-dial-inner
+								span.player-dials-icon.ion-ribbon-a
+								.player-dials-subtitle Score
+								.player-dials-title 48%
+						.player-dial-wrapper
+							.player-dial.player-dial-points: .player-dial-inner
+								.player-dials-subtitle Points
+								.player-dials-title 105
+					+labelled-chromeless-readonly-field({ label: 'Games',          name: 'totalGames',           value: 24 }).is-first
+					+labelled-chromeless-readonly-field({ label: 'Wins',           name: 'totalWins',            value: 13 })
+					+labelled-chromeless-readonly-field({ label: 'Loses',          name: 'totalLoses',           value: 11 })
+					+labelled-chromeless-readonly-field({ label: 'Winning Streak', name: 'longestWinningStreak', value: 4 })
+					+labelled-chromeless-readonly-field({ label: 'Losing Streak',  name: 'longestLosingStreak',  value: 3 })
+					+labelled-chromeless-readonly-field({ label: 'Most Played',    name: 'mostPlayedOpponent',   value: 'Tuan' })
+					+labelled-chromeless-readonly-field({ label: 'Least Played',   name: 'leastPlayedOpponent',  value: 'David' })
+				.modal-header
+					.modal-title Achievements
+				.modal-body
+					for streak in [5,10,20]
 						.form-item: .form-control
 							span.text-create.ion-checkmark.mr-1
-							| Played on their birthday
-						.form-item: .form-control
-							span.text-create.ion-checkmark.mr-1
-							| Played for 5 days straight
-						.form-item: .form-control
-							span.text-create.ion-checkmark.mr-1
-							| Played 10 games in one day
-						.form-item: .form-control
-							span.text-create.ion-checkmark.mr-1
-							| Finished a game in under 5 minutes
-					.modal-header
-						.modal-title Last 20 Games
-					.modal-body
-						table.table
-							col
-							col(width=100)
-							col(width=100)
-							thead
-								tr
-									th Opponent
-									th Outcome
-									th Score
-							each player, i in players
-								tr.ui-table-row
-									td= player.name.full
-									td= i%3==1 ? 'Lost' : 'Won'
-									td #{Math.floor(Math.random() * 11) + 1} / 11
+							| Winning streak of #{streak}
+					.form-item: .form-control
+						span.text-create.ion-checkmark.mr-1
+						| Played on their birthday
+					.form-item: .form-control
+						span.text-create.ion-checkmark.mr-1
+						| Played for 5 days straight
+					.form-item: .form-control
+						span.text-create.ion-checkmark.mr-1
+						| Played 10 games in one day
+					.form-item: .form-control
+						span.text-create.ion-checkmark.mr-1
+						| Finished a game in under 5 minutes
+				.modal-header
+					.modal-title Last 20 Games
+				.modal-body
+					table.table
+						col
+						col(width=100)
+						col(width=100)
+						thead
+							tr
+								th Opponent
+								th Outcome
+								th Score
+						each player, i in players
+							tr.ui-table-row
+								td= player.name.full
+								td= i%3==1 ? 'Lost' : 'Won'
+								td #{Math.floor(Math.random() * 11) + 1} / 11
 
 block js
 	script(src='/js/lib/nouislider/jquery.nouislider.all.min.js')
 	script.
 		jQuery(function($) {
+			// Player Select
+			// ------------------------------
+
+			var player1Controls = $('[name=player1]');
+			var player2Controls = $('[name=player2]');
+			
+			var p1,p2;
+
+			var togglePlayer1 = function() {
+
+				p1 = $(this);
+
+				// remove all classes
+				$('.player-1-group').find('.game-score-button').removeClass('active');
+				$('.player-2-group').find('.game-score-button').removeClass('disabled');
+				
+				// and uncheck all boxes
+				player1Controls.each(function() {
+					var $checkbox = $(this);
+					$checkbox.prop('checked', !$checkbox.prop('checked'));
+				});
+
+				// select the button that was clicked
+				if (p1.prop('checked', true)) {
+					p1.closest('.game-score-button').addClass('active');
+				}
+
+				// disable the matching opponent
+				player2Controls.each(function() {
+					var $checkbox = $(this);
+					if (p1.val() === $checkbox.val()) {
+						$checkbox
+							.closest('.game-score-button')
+							.addClass('disabled');
+					}
+				});
+				
+				// there must two players
+				if (!p1 || !p2) {
+					gameSubmit.prop('disabled', true);
+				} else {
+					gameSubmit.prop('disabled', false);
+				}
+
+			}
+			var togglePlayer2 = function() {
+
+				p2 = $(this);
+
+				// remove all classes
+				$('.player-2-group').find('.game-score-button').removeClass('active');
+				$('.player-1-group').find('.game-score-button').removeClass('disabled');
+				
+				// and uncheck all boxes
+				player2Controls.each(function() {
+					var $checkbox = $(this);
+					$checkbox.prop('checked', !$checkbox.prop('checked'));
+				});
+
+				// select the button that was clicked
+				if (p2.prop('checked', true)) {
+					p2.closest('.game-score-button').addClass('active');
+				}
+				
+				// disable the matching opponent
+				player1Controls.each(function() {
+					var $checkbox = $(this);
+					if (p2.val() === $checkbox.val()) {
+						$checkbox
+							.closest('.game-score-button')
+							.addClass('disabled');
+					}
+				});
+				
+				// there must two players
+				if (!p1 || !p2) {
+					gameSubmit.prop('disabled', true);
+				} else {
+					gameSubmit.prop('disabled', false);
+				}
+
+			}
+
+			//- handle button clicks
+			$('[name=player1]').change(togglePlayer1);
+			$('[name=player2]').change(togglePlayer2);
+
+
+			
+
 			// JS Slider
+			// ------------------------------
+
+			var gameSubmit = $('#game-submit'),
+				p1Score = $('#player-1-score'),
+				p2Score = $('#player-2-score');
+
+			// disallow draws
+			var handleScoreChange = function() {
+
+				console.log(p1.val(),p2.val());
+				
+				if (p1Score.val() === p2Score.val()) {
+					gameSubmit.prop('disabled', true);
+				} else {
+					gameSubmit.prop('disabled', false);
+				}
+
+			};
+
 			$('.js-slider').noUiSlider({
 				start: 0,
 				step: 1,
 				range: {
 					'min': 0,
-					'max': 15
+					'max': 20
 				},
 				format: wNumb({
 					decimals: 0
@@ -230,10 +346,25 @@ block js
 				density: 7,
 				stepped: true
 			});
-			$('#player-1-score-slider').Link('lower').to($('#player-1-score'));
-			$('#player-2-score-slider').Link('lower').to($('#player-2-score'));
+			$('.js-slider').on('set', handleScoreChange);
+			$('#player-1-score-slider').Link('lower').to(p1Score);
+			$('#player-2-score-slider').Link('lower').to(p2Score);
+
+			$('#set-p1-to-11').click(function() {
+				$('#player-1-score-slider').val(11);
+			});
+			$('#set-p2-to-11').click(function() {
+				$('#player-2-score-slider').val(11);
+			});
 			
+
+			
+			
+			
+
 			// Populate the Player Modal
+			// ------------------------------
+
 			$('.player-item').each(function() {
 				
 				var $player = $(this),
