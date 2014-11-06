@@ -1,4 +1,5 @@
-var keystone = require('keystone'),
+var _ = require('underscore'),
+	keystone = require('keystone'),
 	Types = keystone.Field.Types;
 
 /**
@@ -11,21 +12,109 @@ var Game = new keystone.List('Game', {
 });
 
 Game.add({
-	type: { type: Types.Select, options: 'singles, doubles' },
+	name: { type: String },
+	type: { type: Types.Select, options: 'singles, doubles', default: 'singles' },
+	winningPlayer: { type: Types.Relationship, ref: 'User' }, // winning players receive 10 points + 1 point for each point discrepancy at the end of the game
+	losingPlayer: { type: Types.Relationship, ref: 'User' },
+	winningScore: { type: Number },
+	losingScore: { type: Number }
+}, 'Meta', {
 	player1: { type: Types.Relationship, ref: 'User' },
 	player2: { type: Types.Relationship, ref: 'User' },
-	winningPlayer: { type: Types.Relationship, ref: 'User' },// winning players receive 10 points + 1 point for each point discrepancy at the end of the game
-	losingPlayer: { type: Types.Relationship, ref: 'User' },
-	startTime: { type: Types.Datetime },
-	endTime: { type: Types.Datetime }
-}, 'Meta', {
-	duration: { type: Number }, // stored in seconds
-	team1Score: { type: Number },
-	team2Score: { type: Number },
+	player1Score: { type: Number },
+	player2Score: { type: Number },
 	notes: { type: Types.Textarea }
 	
 });
 
-Game.defaultColumns = 'player1, team1Score, player2, team2Score';
+
+
+
+// Pre Save
+// ------------------------------
+
+Game.schema.pre('save', function(next) {
+	
+	var game = this;
+
+	// set the win/lose fields
+	if (game.player1Score === game.player2Score) {
+
+		console.error('A draw was logged, no players have been updated.')
+		return next();
+
+	} else if (game.player1Score > game.player2Score) {
+
+		game.winningPlayer = game.player1;
+		game.losingPlayer = game.player2;
+		
+		game.winningScore = game.player1Score;
+		game.losingScore = game.player2Score;
+
+	} if (game.player2Score > game.player1Score) {
+
+		game.winningPlayer = game.player2;
+		game.losingPlayer = game.player1;
+		
+		game.winningScore = game.player2Score;
+		game.losingScore = game.player1Score;
+
+	};
+
+	// set the name
+	game.name = game.winningScore + ' vs ' + game.losingScore;
+
+	next();
+});
+
+
+
+
+// Post Save
+// ------------------------------
+
+Game.schema.post('save', function() {
+	
+	var game = this;
+	var scoreDiscrepancy = (game.winningScore - game.losingScore);
+
+	// update winner data
+	keystone.list('User').model.findById(game.winningPlayer).exec(function(err, winner) {
+		if (err || !winner) return;
+
+		winner.points = (winner.points + 8 + scoreDiscrepancy);
+		winner.totalGames = winner.totalGames + 1;
+		winner.totalWins = winner.totalWins + 1;
+		winner.totalPointsWon = scoreDiscrepancy;
+
+		winner.save();
+	});
+	
+	// update loser data
+	keystone.list('User').model.findById(game.losingPlayer).exec(function(err, loser) {
+		if (err || !loser) return;
+
+		loser.totalGames = loser.totalGames + 1;
+		loser.totalLosses = loser.totalLosses + 1;
+		loser.totalPointsLost = scoreDiscrepancy;
+
+		loser.save();
+	});
+	
+	// update ranking
+	keystone.list('User').model.find({ 'state': 'active' }).sort('-points').exec(function(err, players) {
+		
+		if (err || !players) return;
+
+		_.each(players, function(player, i) {
+			player.rank = i+1;
+			player.save();
+		});
+
+	});
+
+});
+
+Game.defaultColumns = 'winningPlayer, winningScore, losingPlayer, losingScore';
 
 Game.register();
