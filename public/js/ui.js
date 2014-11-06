@@ -51,14 +51,14 @@ jQuery(function($) {
 	
 	// focus the first modal field if there is one
 	
-	$('.modal').each(function() {
+	// $('.modal').each(function() {
 		
-		var self = $(this);
+	// 	var self = $(this);
 		
-		self.on('shown.bs.modal', function (e) {
-			self.find('input[type!=hidden]:not([type=radio]),textarea').eq(0).click().focus();
-		});
-	});
+	// 	self.on('shown.bs.modal', function (e) {
+	// 		self.find('input[type!=hidden]:not([type=radio]),textarea').eq(0).click().focus();
+	// 	});
+	// });
 
 	//- populate extra markup on loading-button with JS
 	//- add class "is-processing" to the parent form
