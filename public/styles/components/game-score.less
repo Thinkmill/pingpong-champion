@@ -1,0 +1,111 @@
+
+// Player Select
+// ------------------------------
+
+.player-select {
+	margin-bottom: 8px;
+}
+
+.game-score-button {
+	background-color: @gray-lighter;
+	border-radius: @border-radius;
+	border: 0 none;
+	color: @gray;
+	cursor: pointer;
+	display: block;
+	font-size: @font-size-tiny;
+	line-height: 1;
+	padding: @padding-large-vertical @padding-large-horizontal;
+	text-align: center;
+
+	&:hover {
+		background-color: darken(@gray-lighter, 3%);
+		color: @gray-dark;
+	}
+	&.active,
+	&:active,
+	&:focus {
+		outline: none;
+	}
+	&.active,
+	&:active {
+		background-color: @gray-light;
+		color: white;
+	}
+	&.disabled {
+		opacity: .5;
+		pointer-events: none;
+	}
+}
+
+.player-1-group .game-score-button {
+	&.active,
+	&:active,
+	&:focus {
+		background-color: @app-primary;
+	}
+}
+.player-2-group .game-score-button {
+	&.active,
+	&:active,
+	&:focus {
+		background-color: @app-secondary;
+	}
+}
+.player-vs-column {
+	line-height: 1;
+	position: relative;
+	width: 10%;
+
+	&:after {
+		background-color: rgba(0, 0, 0, 0.1);
+		content: "";
+		height: 100%;
+		position: absolute;
+		top: 0;
+		width: 1px;
+	}
+}
+.player-vs-label {
+	.size(60px,48px);
+	background-color: white;
+	color: @gray-light;
+	font-family: baskerville;
+	font-size: 48px;
+	font-style: italic;
+	left: 50%;
+	margin: -24px 0 0 -30px;
+
+	left: 50%;
+	top: 50%;
+	position: absolute;
+	z-index: 2;
+}
+.player-select-column {
+	width: 40%;
+}
+.player-select-group {
+	padding-bottom: @panel-padding-vertical;
+	padding-top: @panel-padding-vertical;
+}
+
+// input with score
+
+.player-score {
+	border: none;
+	font-size: 48px;
+	font-weight: 500;
+	text-align: center;
+	width: auto;
+	max-width: 100%;
+
+	&:focus {
+		outline: none;
+	}
+}
+
+// slider with pips
+
+.game-score-slider {
+	min-height: 80px;
+}
