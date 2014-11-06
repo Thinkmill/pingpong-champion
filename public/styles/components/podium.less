@@ -7,7 +7,7 @@
 
 .podium {
 	.display-flex();
-	.align-items(baseline);
+	.align-items(flex-end);
 	.justify-content(center);
 }
 
@@ -15,14 +15,32 @@
 // rank
 
 .podium-rank {
-	max-width: 280px;
+	min-width: 10%;
 	padding: 20px;
 	text-align: center;
 }
 
 // variants
-.podium-rank-first {
-	max-width: 360px;
+.podium-rank-1 {
+	order: 2;
+	min-width: 20%;
+
+	.podium-trophy {
+		color: @gold;
+		font-size: 128px;
+	}
+}
+.podium-rank-2 {
+	order: 1;
+	.podium-trophy {
+		color: @silver;
+	}
+}
+.podium-rank-3 {
+	order: 3;
+	.podium-trophy {
+		color: @bronze;
+	}
 }
 
 
@@ -41,12 +59,22 @@
 }
 
 
+// trophy
+
+.podium-trophy {
+	display: inline-block;
+	font-size: 64px;
+}
+
+
 // text
 
 .podium-text {
 	background-color: white;
-	margin-top: -40px;
 	position: relative;
+	
+	// when we re-introduce images
+	// margin-top: -40px;
 }
 
 .podium-title {
