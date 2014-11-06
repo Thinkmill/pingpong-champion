@@ -1,5 +1,6 @@
 var _ = require('underscore'),
 	keystone = require('keystone'),
+	async = require('async'),
 	Types = keystone.Field.Types;
 
 /**
@@ -77,41 +78,49 @@ Game.schema.post('save', function() {
 	
 	var game = this;
 	var scoreDiscrepancy = (game.winningScore - game.losingScore);
-
+	
 	// update winner data
-	keystone.list('User').model.findById(game.winningPlayer).exec(function(err, winner) {
-		if (err || !winner) return;
+	var updateWinner = function(done) {
+		keystone.list('User').model.findById(game.winningPlayer).exec(function(err, winner) {
+			if (err || !winner) return done(err);
 
-		winner.points = (winner.points + 8 + scoreDiscrepancy);
-		winner.totalGames = winner.totalGames + 1;
-		winner.totalWins = winner.totalWins + 1;
-		winner.totalPointsWon = scoreDiscrepancy;
+			winner.points = (winner.points + 8 + scoreDiscrepancy);
+			winner.totalGames = winner.totalGames + 1;
+			winner.totalWins = winner.totalWins + 1;
+			winner.totalPointsWon = scoreDiscrepancy;
 
-		winner.save();
-	});
+			winner.save(done);
+		});
+	};
 	
 	// update loser data
-	keystone.list('User').model.findById(game.losingPlayer).exec(function(err, loser) {
-		if (err || !loser) return;
+	var updateLoser = function(done) {
+		keystone.list('User').model.findById(game.losingPlayer).exec(function(err, loser) {
+			if (err || !loser) return done(err);
 
-		loser.totalGames = loser.totalGames + 1;
-		loser.totalLosses = loser.totalLosses + 1;
-		loser.totalPointsLost = scoreDiscrepancy;
+			loser.totalGames = loser.totalGames + 1;
+			loser.totalLosses = loser.totalLosses + 1;
+			loser.totalPointsLost = scoreDiscrepancy;
 
-		loser.save();
-	});
+			loser.save(done);
+		});
+	};
 	
 	// update ranking
-	keystone.list('User').model.find({ 'state': 'active' }).sort('-points').exec(function(err, players) {
-		
-		if (err || !players) return;
+	var resetRankings = function() {
+		keystone.list('User').model.find({ 'state': 'active' }).sort('-points').exec(function(err, players) {
+			
+			if (err || !players) return;
 
-		_.each(players, function(player, i) {
-			player.rank = i+1;
-			player.save();
+			_.each(players, function(player, i) {
+				player.rank = i+1;
+				player.save();
+			});
+
 		});
-
-	});
+	};
+	
+	async.parallel([updateWinner, updateLoser], resetRankings);
 
 });
 
