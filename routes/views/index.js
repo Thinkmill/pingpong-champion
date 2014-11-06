@@ -31,7 +31,7 @@ exports = module.exports = function(req, res) {
 				locals.validationErrors = err.errors;
 				return next();
 			} else {
-				req.flash('success', 'New game ' + newGame.name + ' saved successfully.');
+				req.flash('success', 'Your game score was logged successfully.');
 				
 				// redirect so we load the new game
 				res.redirect('/');

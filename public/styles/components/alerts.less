@@ -7,10 +7,11 @@
 // -------------------------
 
 .alert {
-	padding: @padding-base-vertical @padding-base-horizontal;
-	margin-bottom: 1em;
 	border: 1px solid transparent;
 	border-radius: @border-radius;
+	margin-bottom: 1em;
+	padding: @padding-base-vertical @padding-base-horizontal;
+	text-align: center;
 
 	// Headings for larger alerts
 	h4 {
@@ -49,7 +50,7 @@
 // Generate contextual modifier classes for colorizing the alert.
 
 .alert-success {
-	.alert-variant(@alert-success-bg; @alert-success-border; @alert-success-text);
+	.alert-variant(@app-success; @app-success; white);
 }
 .alert-info {
 	.alert-variant(@alert-info-bg; @alert-info-border; @alert-info-text);
