@@ -93,7 +93,7 @@ body {
 .content-header,
 .content-body,
 .content-footer {
-	padding-left: @navbar-width;
+	// padding-left: @navbar-width; // not ready for the navbar
 	position: relative;
 }
 
@@ -101,14 +101,15 @@ body {
 
 .content-header {
 	.headerbar();
-	background-color: rgba(255, 255, 255, 0.9);
+	background-color: fade(@app-primary, 93%);
+	color: white;
 	position: fixed;
 	top: 0;
 	width: 100%;
 	z-index: @content-header-stack-order;
 }
 .content-header-inner {
-	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+	// box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 	position: relative;
 }
 
@@ -190,11 +191,12 @@ body {
 	.app-sidebar {
 		display: block;
 	}
-	.content-header,
-	.content-body,
-	.content-footer {
-		padding-left: @navbar-width + @sidebar-width;
-	}
+	// not ready for the sidebar
+	// .content-header,
+	// .content-body,
+	// .content-footer {
+	// 	padding-left: @navbar-width + @sidebar-width;
+	// }
 }
 
 
