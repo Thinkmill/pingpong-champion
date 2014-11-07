@@ -15,6 +15,8 @@ exports.create = {
 		{ __ref: 'neil',    'name.first': 'Neil',    'name.last': 'Alexander', email: 'neil@prismatik.com.au',  gender: 'male', state: 'active', password: 'pingpong champion' },
 		{ __ref: 'rob',     'name.first': 'Rob',     'name.last': 'Morris',    email: 'rob@prismatik.com.au',   gender: 'male', state: 'active', password: 'pingpong champion' },
 		{ __ref: 'sam',     'name.first': 'Sam',     'name.last': 'Gentle',    email: 'simon@prismatik.com.au', gender: 'male', state: 'active', password: 'pingpong champion' },
-		{ __ref: 'simon',   'name.first': 'Simon',   'name.last': 'Taylor',    email: 'simon@prismatik.com.au', gender: 'male', state: 'active', password: 'pingpong champion' }
+		{ __ref: 'simon',   'name.first': 'Simon',   'name.last': 'Taylor',    email: 'simon@prismatik.com.au', gender: 'male', state: 'active', password: 'pingpong champion' },
+		
+		{ __ref: 'guest',    'name.first': 'Guest',  'name.last': 'Account',    email: 'guest@thinkmill.com.au',    gender: 'male', state: 'active', password: 'guest' }
 	]
 };
