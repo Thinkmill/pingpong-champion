@@ -27,7 +27,7 @@ User.add({
 	dob: { type: Types.Date, label: 'Date of Birth' },
 	isAdmin: { type: Boolean },
 }, 'Profile', {
-	photo: { type: Types.CloudinaryImage }, // TODO: configure cloudinary (currently useing Keystone demo account)
+	// photo: { type: Types.CloudinaryImage }, // TODO: configure cloudinary (currently useing Keystone demo account)
 	achievements: { type: Types.Relationship, ref: 'Achievement', many: true },
 	bio: { type: Types.Markdown }
 }, 'Dimensions', {

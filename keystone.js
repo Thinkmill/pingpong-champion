@@ -26,9 +26,9 @@ keystone.init({
 	'signin redirect': '/',
 	'signout redirect': '/',
 	
-	'basedir': __dirname,
+	'basedir': __dirname
 
-	'cloudinary config': process.env.CLOUDINARY_URL
+	// 'cloudinary config': process.env.CLOUDINARY_URL
 
 });
 
