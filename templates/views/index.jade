@@ -6,13 +6,15 @@ block css
 
 block header
 	.content-header: .app-container: .content-header-inner
-		button(type='button', data-toggle='modal', data-target='#modal-score').btn.btn-primary.pull-right.mt-1
+		button(type='button', data-toggle='modal', data-target='#modal-score').btn.btn-primary.pull-right.mt-1.hidden-xs
 			span.ion-plus.mr-5
 			| Add Game
+		.headerbar-logo
+			include /public/images/logo.svg
 		.headerbar-label PingPong Champion
-		//- button(type='button', data-toggle='modal', data-target='#modal-score').headerbar-button.right.visible-sm-block
+		button(type='button', data-toggle='modal', data-target='#modal-score').headerbar-button.right.visible-xs-block
 			span.ion-plus.mr-5
-			| Add Game
+			| Score
 
 //- block sidebar
 	//- .sidebar-section
@@ -104,45 +106,46 @@ block content
 block modal
 	//- Modal: Add Game
 	#modal-score(tabindex="-1", role="dialog", aria-labelledby="modalScore", aria-hidden="true").modal
-		.modal-dialog.modal-lg
+		.modal-dialog.modal-sm
 			.modal-content
-				form(method='post' novalidate autocomplete='off').modal-form
+				form(method='post' novalidate autocomplete='off').modal-form#game-score-form
 					input(type='hidden', name='action', value='game.create')
-					input(type='hidden', name='winningPlayer')
-					input(type='hidden', name='losingPlayer')
-					input(type='hidden', name='winningScore')
-					input(type='hidden', name='losingScore')
+					input(type='hidden', name='player1Score', value=0)
+					input(type='hidden', name='player2Score', value=0)
 					.modal-header.text-center
 						button(type="button" data-dismiss="modal" aria-hidden="true").headerbar-button.cancel-button Cancel
 						.modal-title#modal-player-details-title Add Game
-						button(type="submit" data-submit-label="Save" disabled)#game-submit.headerbar-button.right.is-primary
-					.g-row.modal-body-stretch
-						.g-col.player-select-column
-							.player-select-group.modal-body: .player-1-group.g-row.g-row-sm-gutter
+						//- button(type="submit" data-submit-label="Save" disabled)#game-submit.headerbar-button.right.is-primary
+					.game-slides
+						.game-slide.game-slide-1
+							.game-slide-field#player-1-name P1
+							.player-select.player-1-select.g-row.g-row-sm-gutter
 								each player, i in selectablePlayers
 									.g-col.g-one-third: .player-select: label.game-score-button
-										input(type='radio' name='player1' value=player.id).visually-hidden
+										input(type='radio' name='player1' value=player.id data-name=player.name.first).visually-hidden
 										= player.name.first
-							.text-center.mt-2
-								.mini-heading Player 1 Score
-								input(type='number' name='player1Score' value=0).player-score#player-1-score
-							.game-score-slider
-								#player-1-score-slider.js-slider
-							button(type='button')#set-p1-to-11.game-score-button Set to 11
-						.g-col.text-center.player-vs-column
-							.player-vs-label VS
-						.g-col.player-select-column
-							.player-select-group.modal-body: .player-2-group.g-row.g-row-sm-gutter
+						.game-slide.game-slide-2
+							.game-slide-field#player-1-score 0
+							.player-select.g-row.g-row-sm-gutter
+								each key, i in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+									.g-col.g-one-third: .player-select: label.game-score-button.game-score-key
+										input(type='radio' name='player1Score' value=key).visually-hidden
+										= key
+
+						.game-slide.game-slide-3
+							.game-slide-field#player-2-name P2
+							.player-select.player-2-select.g-row.g-row-sm-gutter
 								each player, i in selectablePlayers
 									.g-col.g-one-third: .player-select: label.game-score-button
-										input(type='radio' name='player2' value=player.id).visually-hidden
+										input(type='radio' name='player2' value=player.id data-name=player.name.first).visually-hidden
 										= player.name.first
-							.text-center.mt-2
-								.mini-heading Player 2 Score
-								input(type='number' name='player2Score' value=0).player-score#player-2-score
-							.game-score-slider
-								#player-2-score-slider.js-slider
-							button(type='button')#set-p2-to-11.game-score-button Set to 11
+						.game-slide.game-slide-4
+							.game-slide-field#player-2-score 0
+							.player-select.g-row.g-row-sm-gutter
+								each key, i in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+									.g-col.g-one-third: .player-select: label.game-score-button.player-2-score-key
+										input(type='radio' name='player2Score' value=key).visually-hidden
+										= key
 					//- Not ready for this
 					//- textarea(name='notes' placeholder='Notes (optional)' rows=3).field
 
@@ -216,24 +219,63 @@ block modal
 								td #{Math.floor(Math.random() * 11) + 1} / 11
 
 block js
-	script(src='/js/lib/nouislider/jquery.nouislider.all.min.js')
 	script.
 		jQuery(function($) {
 			// Player Select 
 			// ------------------------------
 
+			
+			//- progress
+
+			var slideDeck = $('.game-slides'),
+				modalTitle = $('#modal-player-details-title'),
+				currentSlide = 1,
+				nextSlide,
+				prevSlide;
+			
+			slideDeck.addClass('show-slide-1');
+			modalTitle.text('Select P1');
+
+			var handleSlideChange = function(currentSlide) {
+				setTimeout(function() {
+					if (currentSlide === 1) {
+						slideDeck.addClass('show-slide-1');
+						modalTitle.text('Select P1');
+						nextSlide = 2;
+						prevSlide = null;
+					} else if (currentSlide === 2) {
+						slideDeck.removeClass('show-slide-1').addClass('show-slide-2');
+						modalTitle.text('P1 Score');
+						nextSlide = 3;
+						prevSlide = 1;
+					} else if (currentSlide === 3) {
+						slideDeck.removeClass('show-slide-2').addClass('show-slide-3');
+						modalTitle.text('Select P2');
+						nextSlide = 4;
+						prevSlide = 2;
+					} else if (currentSlide === 4) {
+						slideDeck.removeClass('show-slide-3').addClass('show-slide-4');
+						modalTitle.text('P2 Score');
+						nextSlide = null;
+						prevSlide = 3;
+					}
+				}, 200);
+			}
+
+
+			//- Player Select
+			//- ------------------------------
+
 			var player1Controls = $('[name=player1]');
 			var player2Controls = $('[name=player2]');
-			
-			var p1,p2;
 
 			var togglePlayer1 = function() {
 
-				p1 = $(this);
+				var p1 = $(this);
 
 				// remove all classes
-				$('.player-1-group').find('.game-score-button').removeClass('active');
-				$('.player-2-group').find('.game-score-button').removeClass('disabled');
+				$('.game-slide-1').find('.game-score-button').removeClass('active');
+				$('.game-slide-2').find('.game-score-button').removeClass('disabled');
 				
 				// and uncheck all boxes
 				player1Controls.each(function() {
@@ -255,22 +297,19 @@ block js
 							.addClass('disabled');
 					}
 				});
-				
-				// there must two players
-				if (!p1 || !p2) {
-					gameSubmit.prop('disabled', true);
-				} else {
-					gameSubmit.prop('disabled', false);
-				}
+
+				//- populate the input and progress the slides
+				$('#player-1-name').text(p1.data('name'));
+				handleSlideChange(2);
 
 			}
 			var togglePlayer2 = function() {
 
-				p2 = $(this);
+				var p2 = $(this);
 
 				// remove all classes
-				$('.player-2-group').find('.game-score-button').removeClass('active');
-				$('.player-1-group').find('.game-score-button').removeClass('disabled');
+				$('.game-slide-2').find('.game-score-button').removeClass('active');
+				$('.game-slide-1').find('.game-score-button').removeClass('disabled');
 				
 				// and uncheck all boxes
 				player2Controls.each(function() {
@@ -292,70 +331,48 @@ block js
 							.addClass('disabled');
 					}
 				});
+
+				//- populate the input and progress the slides
+				$('#player-2-name').text(p2.data('name'));
+				handleSlideChange(4);
+
+			}
+
+
+			
+
+			// Score Select
+			// ------------------------------
+
+			var togglePlayer1Score = function() {
+
+				p1score = $(this);
+
+				console.log(p1score.val());
+
+				//- populate the input and progress the slides
+				$('#player-1-score').text(p1score.val());
+				handleSlideChange(3);
+
+			}
+			var togglePlayer2Score = function() {
+
+				p2score = $(this);
+
+				//- populate the input and progress the slides
+				$('#player-2-score').text(p2score.val());
+				setTimeout(function() {
+					$('#game-score-form').submit();
+				}, 100);
 				
-				// there must two players
-				if (!p1 || !p2) {
-					gameSubmit.prop('disabled', true);
-				} else {
-					gameSubmit.prop('disabled', false);
-				}
 
 			}
 
 			//- handle button clicks
 			$('[name=player1]').change(togglePlayer1);
 			$('[name=player2]').change(togglePlayer2);
-
-
-			
-
-			// JS Slider
-			// ------------------------------
-
-			var gameSubmit = $('#game-submit'),
-				p1Score = $('#player-1-score'),
-				p2Score = $('#player-2-score');
-
-			// disallow draws
-			var handleScoreChange = function() {
-
-				console.log(p1.val(),p2.val());
-				
-				if (p1Score.val() === p2Score.val()) {
-					gameSubmit.prop('disabled', true);
-				} else {
-					gameSubmit.prop('disabled', false);
-				}
-
-			};
-
-			$('.js-slider').noUiSlider({
-				start: 0,
-				step: 1,
-				range: {
-					'min': 0,
-					'max': 20
-				},
-				format: wNumb({
-					decimals: 0
-				})
-			});
-			$('.js-slider').noUiSlider_pips({
-				mode: 'count',
-				values: 4,
-				density: 7,
-				stepped: true
-			});
-			$('.js-slider').on('set', handleScoreChange);
-			$('#player-1-score-slider').Link('lower').to(p1Score);
-			$('#player-2-score-slider').Link('lower').to(p2Score);
-
-			$('#set-p1-to-11').click(function() {
-				$('#player-1-score-slider').val(11);
-			});
-			$('#set-p2-to-11').click(function() {
-				$('#player-2-score-slider').val(11);
-			});
+			$('[name=player1Score]').change(togglePlayer1Score);
+			$('[name=player2Score]').change(togglePlayer2Score);
 			
 
 			
