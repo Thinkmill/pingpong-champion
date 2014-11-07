@@ -4,6 +4,11 @@
 
 .player-select {
 	margin-bottom: 8px;
+
+	.game-score-button {
+		padding-left: 0;
+		padding-right: 0;
+	}
 }
 
 .game-score-button {
@@ -29,27 +34,12 @@
 	}
 	&.active,
 	&:active {
-		background-color: @gray-light;
+		background-color: @app-primary;
 		color: white;
 	}
 	&.disabled {
 		opacity: .5;
 		pointer-events: none;
-	}
-}
-
-.player-1-group .game-score-button {
-	&.active,
-	&:active,
-	&:focus {
-		background-color: @app-primary;
-	}
-}
-.player-2-group .game-score-button {
-	&.active,
-	&:active,
-	&:focus {
-		background-color: @app-secondary;
 	}
 }
 .player-vs-column {
@@ -84,25 +74,84 @@
 .player-select-column {
 	width: 40%;
 }
-.player-select-group {
-	padding-bottom: @panel-padding-vertical;
-	padding-top: @panel-padding-vertical;
 
-	.game-score-button {
-		padding-left: 0;
-		padding-right: 0;
+
+// slides
+
+.game-slides-wrapper {
+	overflow: hidden;
+}
+.game-slides {
+	// .display-flex();
+	height: ~"calc(100% - @{headerbar-height})";
+	min-height: 320px;
+	position: relative;
+}
+
+// slide card
+.game-slide {
+	.transition( all 200ms ease-in-out );
+	.translate3d(100%,0,0);
+	.square(100%);
+	.fill-space();
+	padding-bottom: @modal-inner-padding;
+	padding-top: @modal-inner-padding;
+	opacity: 0;
+	position: absolute;
+	visibility: hidden;
+}
+
+// handle slide transitions
+&.show-slide-1 {
+	
+	.game-slide-1 {
+		.translate3d(0,0,0);
+		visibility: visible;
+		opacity: 1;
+	}
+}
+&.show-slide-2 {
+	.game-slide-1 { .translate3d(-100%,0,0); }
+	.game-slide-2 {
+		.translate3d(0,0,0);
+		visibility: visible;
+		opacity: 1;
+	}
+}
+&.show-slide-3 {
+	.game-slide-1 { .translate3d(-100%,0,0); }
+	.game-slide-2 { .translate3d(-100%,0,0); }
+	.game-slide-3 {
+		.translate3d(0,0,0);
+		visibility: visible;
+		opacity: 1;
+	}
+}
+&.show-slide-4 {
+	.game-slide-1 { .translate3d(-100%,0,0); }
+	.game-slide-2 { .translate3d(-100%,0,0); }
+	.game-slide-3 { .translate3d(-100%,0,0); }
+	.game-slide-4 {
+		.translate3d(0,0,0);
+		visibility: visible;
+		opacity: 1;
 	}
 }
 
+
 // input with score
 
-.player-score {
+.game-slide-field {
 	border: none;
+	display: block;
 	font-size: 48px;
 	font-weight: 500;
+	line-height: 48px;
+	height: 48px;
+	margin-bottom: @grid-gutter;
+	max-width: 100%;
 	text-align: center;
 	width: auto;
-	max-width: 100%;
 
 	&:focus {
 		outline: none;
