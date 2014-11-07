@@ -23,6 +23,7 @@ keystone.init({
 	'user model': 'User',
 	'cookie secret': '.{t~$dqT6x3I1n:fVVRVi/rF&FPy"$1A$3^;P;&G8Hz^`>-8o8tK/k>e&{>5q%Ep',
 	'back url': '/',
+	'signin logo': ['/images/logo.svg', 210, 128],
 	'signin redirect': '/',
 	'signout redirect': '/',
 	
