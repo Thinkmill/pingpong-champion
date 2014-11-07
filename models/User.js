@@ -35,17 +35,17 @@ User.add({
 	age: { type: Number, noedit: true },
 	handicap: { type: Number, noedit: true }, // based on score
 }, 'Stats', {
-	points: { type: Number, default: 0 }, // +8 for a win + point difference at the end of the game
-	score: { type: Number, default: 0 }, // win/loss percentage 
-	rank: { type: Number, default: 0 }, // 1 to {number of players}
+	points: { type: Number, default: 0, noedit: true }, // +8 for a win + point difference at the end of the game
+	score: { type: Number, default: 0, noedit: true }, // win/loss percentage 
+	rank: { type: Number, default: 0, noedit: true }, // 1 to {number of players}
 	totalGames: { type: Number, default: 0, label: 'Games played' },
 	totalWins: { type: Number, default: 0, label: 'Wins' },
 	totalLosses: { type: Number, default: 0, label: 'Losses' },
 	totalPointsWon: { type: Number, default: 0, label: 'Points won' },
 	totalPointsLost: { type: Number, default: 0, label: 'Points lost' },
-	totalTimePlayed: { type: Number, default: 0 }, // stored in seconds
-	longestWinningStreak: { type: Number, default: 0 },
-	longestLosingStreak: { type: Number, default: 0 },
+	totalTimePlayed: { type: Number, default: 0, noedit: true }, // stored in seconds
+	longestWinningStreak: { type: Number, default: 0, noedit: true },
+	longestLosingStreak: { type: Number, default: 0, noedit: true },
 	mostPlayedOpponent: { type: Types.Relationship, ref: 'User' },
 	leastPlayedOpponent: { type: Types.Relationship, ref: 'User' }
 	
